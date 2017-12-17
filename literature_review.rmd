@@ -1,0 +1,16 @@
+---
+title: "Demographics Literature Review"
+output: html_document
+---
+
+
+### Spijker (2013), Population ageing: the timebomb that isn’t?
+
+Jeroen Spijker and John MacInnes argue that current measures of population ageing are misleading and that the numbers of dependent older people in the UK and other countries have actually been falling in recent years.
+
+
+### Lunney (2002), Profiles of older medicare decedents.
+
+Four trajectory groups had distinct patterns of demographics, care delivery, and Medicare expenditures. Frailty was a dominant pattern, with 47% of all decedents, whereas sudden death claimed only 7%; cancer claimed 22%, and organ system failure, 16%.
+
+
