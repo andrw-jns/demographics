@@ -3,14 +3,25 @@ title: "Demographics Literature Review"
 output: html_document
 ---
 
+# Insert the figure from Forward View 
+
 
 ### Spijker (2013), Population ageing: the timebomb that isn’t?
 
 Jeroen Spijker and John MacInnes argue that current measures of population ageing are misleading and that the numbers of dependent older people in the UK and other countries have actually been falling in recent years.
 
+"We know that most acute medical care costs occur in the final months of life, with the age at which these months occur having little effect"
+
+"We should not assume that population ageing itself will strain health and social care systems. Demand for services will rise but continue to be driven by other factors, chiefly progress in medical knowledge and technology, but also the increasing complexity of comorbid age related conditions."
+
+### Christensen (2009), Ageing populations: the challenges ahead
 
 ### Lunney (2002), Profiles of older medicare decedents.
 
-Four trajectory groups had distinct patterns of demographics, care delivery, and Medicare expenditures. Frailty was a dominant pattern, with 47% of all decedents, whereas sudden death claimed only 7%; cancer claimed 22%, and organ system failure, 16%.
+...Four trajectory groups had distinct patterns of demographics, care delivery, and Medicare expenditures. Frailty was a dominant pattern, with 47% of all decedents, whereas sudden death claimed only 7%; cancer claimed 22%, and organ system failure, 16%.
+
+### CHE (2016), Medical spending and hospital inpatient care in England: An analysis over time.
+
+We find that... (iii) health care activity rises substantially for individuals in the period before death so that expenditure is driven substantially by mortality in the population. Taken together these findings indicate that this element of health care expenditure in England has been substantially driven by the underlying morbidity and age of the population in conjunction with improving health care technology.
 
 
