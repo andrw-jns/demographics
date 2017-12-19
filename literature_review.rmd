@@ -3,8 +3,28 @@ title: "Demographics Literature Review"
 output: html_document
 ---
 
-# Insert the figure from Forward View 
+# Summary of Previous Relevant Work
 
+Papers published by the Centre for Health Services Economics and Organisation (CHSEO) in 2014 and 2015 explore historic trends in hospital inpatient activity and attempt to disaggregate the drivers of change into “…factors associated with the patient’s age (age effect), factors associated with the patient’s year of birth (cohort effect) and factors associated with the year of the patient’s admission (period effect).”  CHSEO developed multivariate regression models predicting admissions by year (or service) and single year of age.  They note difficulties arising from the co-linearity of the age, period and cohort predictor variables and explore a range of methods to address this issue. CHSEO demonstrate that over recent years the cohort effect has largely offset demand pressures arising from the age effect, but suggest that this offsetting may diminish after 2021 as “those born shortly after WWII start to reach late old age”.
+
+A paper published by the Centre for Health Economics examines historic trends in acute inpatient hospital activity with reference to a patient’s age, morbidity and proximity to death and concludes that “…health care activity rises substantially for individuals in the period before death so that expenditure is driven substantially by mortality in the population.”
+
+Greunberg, Kramer, Fries and Manton (in individual papers) set out three theories of population ageing; an expansion of morbidity, a compression of morbidity and a dynamic equilibrium.  The scenarios differ in terms of trends in the length of time that is spent in ill-health at the end of life. 
+The Strategy Unit have used historic trends in life expectancy, disability free life expectancy in conjunction with population projections to estimate future demand for acute healthcare under each of these scenarios.(See __The Effect of Demographic Change on Acute Hospital Utilisation__)
+
+The 2012 European Commission Ageing Report estimated the impact of demographic and health status change on healthcare costs across 27 EU member states. Cost pressures were estimated under a series of death-related cost and morbidity compression / expansion scenarios although their work was constrained considerably by data availability.
+
+Lunney et al described methods of classifying patient who died into four groups (sudden death, terminal illness, organ failure and frailty), such that the patterns of healthcare utilisation in the 12 months prior to death were similar within groups but distinct between groups.
+
+
+
+### NHS Five Year Forward View: Recap briefing for the Health Select Committee on technical modelling and scenarios
+
+### Insert figure 
+
+[Current Method of forecasting utilisation:]
+2.3.1 Demographic pressure 
+The demographic pressure considered the change in the population (disaggregated by age bands and sex) together with the estimates for the mean use of particular services (again disaggregated by age bands and sex). Using ONS population projections and age/cost curves produced by the Nuffield Trust we calculated the demographic pressure.
 
 ### Spijker (2013), Population ageing: the timebomb that isn’t?
 
@@ -14,7 +34,7 @@ Jeroen Spijker and John MacInnes argue that current measures of population agein
 
 "We should not assume that population ageing itself will strain health and social care systems. Demand for services will rise but continue to be driven by other factors, chiefly progress in medical knowledge and technology, but also the increasing complexity of comorbid age related conditions."
 
-### Christensen (2009), Ageing populations: the challenges ahead
+### Christensen (2009), Ageing populations: the challenges ahead.
 
 ### Lunney (2002), Profiles of older medicare decedents.
 
@@ -24,4 +44,51 @@ Jeroen Spijker and John MacInnes argue that current measures of population agein
 
 We find that... (iii) health care activity rises substantially for individuals in the period before death so that expenditure is driven substantially by mortality in the population. Taken together these findings indicate that this element of health care expenditure in England has been substantially driven by the underlying morbidity and age of the population in conjunction with improving health care technology.
 
+While there is a general tendency for expenditure to increase with age, expenditures are particularly high in the year leading to death. __De Nardi et al. (2015)__ provide an overview of the literature in this area, which focuses largely on data from sickness funds. __Seshamani and Gray (2004)__ provide evidence on rising expenditure with proximity to death for NHS hospital inpatients and day cases from the Oxford Record Linkage Study. Individuals aged 65 and over at the end of 1970 were selected and their general and psychiatric hospital and death records tracked to 1999. Hospital stays were costed using expenditure data from 1997 to 1999. Their results demonstrate significant increases in average quarterly costs approaching death. Average expenditure in the 20th quarter prior to death was £148. This increased steadily to around the 4th quarter prior to death and then rose substantially to £1,698 in the quarter of death. Expenditures more than doubled from the penultimate to final quarter. This section provides estimates of inpatient expenditure in years approaching death in HES data at our disposal.
 
+Average expenditure ... varies across age groups, being substantially greater for younger age groups than for those over 65 years. Using US Medicare data, __Yang et al. (2003)__ report a similar finding that spending on inpatient care in the last year of life declines with age at death.
+
+Yang et al. (2003) report time to death as the main reason for inpatient expenditures using US Medicare data.
+
+### Fries (1980), Aging, natural death, and the compression of morbidity.
+
+
+# Strategy Unit Work
+
+### Paliative Care in the West Mids
+
+In 2011 there were four hundred and fifty thousand deaths in England, lower
+than at any point since the NHS was founded, but since 2011 the number of deaths per annum has
+increased and ONS forecast that this upward trend will continue for the foreseeable future with a
+25% increase in annual deaths by 2039. 
+
+Projections produced by the Office of National Statistics suggest that the number of
+deaths is likely to increase slowly for the next 5 years before more rapid annual increases in
+deaths become the norm. By 2036 the number of deaths per annum is expected to be
+higher than at any point since 1946.
+
+Between 2006 and 2014, the number
+of deaths of those aged over 85 years has grown by 29% from 16,000 to 20,600 and this
+trend is set to continue. Over the same period there have been reductions in the deaths of
+those aged 75 to 84 years although these reductions are set to level off in the near future.
+Marginal reductions in deaths in those aged under 75 are expected continue. Taken
+together, these changes suggest that the over 85s will account for 43% of deaths in the
+West Midlands by 2020, 6% points higher than in 2006.
+
+The work of Dr June Lunney and Dr Joanne Lynn provides a useful means of classifying
+patients approaching death according to their health care needs. Five condition groups
+are defined with reference to the patient’s underlying cause of death and age; cancer,
+organ failure, frailty and degenerative conditions, other terminal illness and sudden deaths.
+Figure 2v shows that deaths in the frailty category have increased substantially since 2006
+whereas deaths from organ failure, other terminal illness and sudden deaths have reduced.
+Cancer deaths have increased only marginally.
+
+### Understanding the Variation in Patterns of Acute Healthcare Utilisation Prior to Death, the Strategy Unit, March 2015
+
+
+### The Strategy Unit, The Effect of Demographic Change on Acute Hospital Utilisation, December 2015
+
+# Going Forwards : Literature on Forecasting
+
+### Soyiri(2013), An overview of health forecasting
+https://www.ncbi.nlm.nih.gov/pmc/articles/PMC3541816/
