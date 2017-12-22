@@ -1,84 +1,274 @@
-Summary of Previous Relevant Work
-Papers published by the Centre for Health Services Economics and Organisation (CHSEO) in 2014 and 2015 explore historic trends in hospital inpatient activity and attempt to disaggregate the drivers of change into “…factors associated with the patient’s age (age effect), factors associated with the patient’s year of birth (cohort effect) and factors associated with the year of the patient’s admission (period effect).” CHSEO developed multivariate regression models predicting admissions by year (or service) and single year of age. They note difficulties arising from the co-linearity of the age, period and cohort predictor variables and explore a range of methods to address this issue. CHSEO demonstrate that over recent years the cohort effect has largely offset demand pressures arising from the age effect, but suggest that this offsetting may diminish after 2021 as “those born shortly after WWII start to reach late old age”.
+---
+title: "Demographics Literature Review"
+output: html_document
+---
+
+# Summary of Previous Relevant Work (From SW's Proposal to HF)
+
+Papers published by the Centre for Health Services Economics and Organisation (CHSEO) in 2014 and 2015 explore historic trends in hospital inpatient activity and attempt to disaggregate the drivers of change into “…factors associated with the patient’s age (age effect), factors associated with the patient’s year of birth (cohort effect) and factors associated with the year of the patient’s admission (period effect).”  CHSEO developed multivariate regression models predicting admissions by year (or service) and single year of age.  They note difficulties arising from the co-linearity of the age, period and cohort predictor variables and explore a range of methods to address this issue. CHSEO demonstrate that over recent years the cohort effect has largely offset demand pressures arising from the age effect, but suggest that this offsetting may diminish after 2021 as “those born shortly after WWII start to reach late old age”.
 
 A paper published by the Centre for Health Economics examines historic trends in acute inpatient hospital activity with reference to a patient’s age, morbidity and proximity to death and concludes that “…health care activity rises substantially for individuals in the period before death so that expenditure is driven substantially by mortality in the population.”
 
-Greunberg, Kramer, Fries and Manton (in individual papers) set out three theories of population ageing; an expansion of morbidity, a compression of morbidity and a dynamic equilibrium. The scenarios differ in terms of trends in the length of time that is spent in ill-health at the end of life. The Strategy Unit have used historic trends in life expectancy, disability free life expectancy in conjunction with population projections to estimate future demand for acute healthcare under each of these scenarios.(See The Effect of Demographic Change on Acute Hospital Utilisation)
+Greunberg, Kramer, Fries and Manton (in individual papers) set out three theories of population ageing; an expansion of morbidity, a compression of morbidity and a dynamic equilibrium.  The scenarios differ in terms of trends in the length of time that is spent in ill-health at the end of life. 
+The Strategy Unit have used historic trends in life expectancy, disability free life expectancy in conjunction with population projections to estimate future demand for acute healthcare under each of these scenarios.(See __The Effect of Demographic Change on Acute Hospital Utilisation__)
 
 The 2012 European Commission Ageing Report estimated the impact of demographic and health status change on healthcare costs across 27 EU member states. Cost pressures were estimated under a series of death-related cost and morbidity compression / expansion scenarios although their work was constrained considerably by data availability.
 
 Lunney et al described methods of classifying patient who died into four groups (sudden death, terminal illness, organ failure and frailty), such that the patterns of healthcare utilisation in the 12 months prior to death were similar within groups but distinct between groups.
 
-NHS Five Year Forward View: Recap briefing for the Health Select Committee on technical modelling and scenarios
-Insert figure (See ZevRoss Tutorial)
+
+
+### NHS Five Year Forward View: Recap briefing for the Health Select Committee on technical modelling and scenarios
+
+### Insert figure (See ZevRoss Tutorial)
+
 [Current Method of forecasting utilisation:]
 
-2.3.1 Demographic pressure The demographic pressure considered the change in the population (disaggregated by age bands and sex) together with the estimates for the mean use of particular services (again disaggregated by age bands and sex). Using ONS population projections and age/cost curves produced by the Nuffield Trust we calculated the demographic pressure.
+2.3.1 Demographic pressure 
+The demographic pressure considered the change in the population (disaggregated by age bands and sex) together with the estimates for the mean use of particular services (again disaggregated by age bands and sex). Using ONS population projections and age/cost curves produced by the Nuffield Trust we calculated the demographic pressure.
 
-Spijker (2013), Population ageing: the timebomb that isn’t?
+### Spijker (2013), Population ageing: the timebomb that isn’t?
+
 Jeroen Spijker and John MacInnes argue that current measures of population ageing are misleading and that the numbers of dependent older people in the UK and other countries have actually been falling in recent years.
 
 "We know that most acute medical care costs occur in the final months of life, with the age at which these months occur having little effect"
 
 "We should not assume that population ageing itself will strain health and social care systems. Demand for services will rise but continue to be driven by other factors, chiefly progress in medical knowledge and technology, but also the increasing complexity of comorbid age related conditions."
 
-Christensen (2009), Ageing populations: the challenges ahead.
-Lunney (2002), Profiles of older medicare decedents.
+### Christensen (2009), Ageing populations: the challenges ahead.
+
+### Lunney (2002), Profiles of older medicare decedents.
+
 ...Four trajectory groups had distinct patterns of demographics, care delivery, and Medicare expenditures. Frailty was a dominant pattern, with 47% of all decedents, whereas sudden death claimed only 7%; cancer claimed 22%, and organ system failure, 16%.
 
-CHE (2016), Medical spending and hospital inpatient care in England: An analysis over time.
+### CHE (2016), Medical spending and hospital inpatient care in England: An analysis over time.
+
 We find that... (iii) health care activity rises substantially for individuals in the period before death so that expenditure is driven substantially by mortality in the population. Taken together these findings indicate that this element of health care expenditure in England has been substantially driven by the underlying morbidity and age of the population in conjunction with improving health care technology.
 
-While there is a general tendency for expenditure to increase with age, expenditures are particularly high in the year leading to death. De Nardi et al. (2015) provide an overview of the literature in this area, which focuses largely on data from sickness funds. Seshamani and Gray (2004) provide evidence on rising expenditure with proximity to death for NHS hospital inpatients and day cases from the Oxford Record Linkage Study. Individuals aged 65 and over at the end of 1970 were selected and their general and psychiatric hospital and death records tracked to 1999. Hospital stays were costed using expenditure data from 1997 to 1999. Their results demonstrate significant increases in average quarterly costs approaching death. Average expenditure in the 20th quarter prior to death was £148. This increased steadily to around the 4th quarter prior to death and then rose substantially to £1,698 in the quarter of death. Expenditures more than doubled from the penultimate to final quarter. This section provides estimates of inpatient expenditure in years approaching death in HES data at our disposal.
+While there is a general tendency for expenditure to increase with age, expenditures are particularly high in the year leading to death. __De Nardi et al. (2015)__ provide an overview of the literature in this area, which focuses largely on data from sickness funds. __Seshamani and Gray (2004)__ provide evidence on rising expenditure with proximity to death for NHS hospital inpatients and day cases from the Oxford Record Linkage Study. Individuals aged 65 and over at the end of 1970 were selected and their general and psychiatric hospital and death records tracked to 1999. Hospital stays were costed using expenditure data from 1997 to 1999. Their results demonstrate significant increases in average quarterly costs approaching death. Average expenditure in the 20th quarter prior to death was £148. This increased steadily to around the 4th quarter prior to death and then rose substantially to £1,698 in the quarter of death. Expenditures more than doubled from the penultimate to final quarter. This section provides estimates of inpatient expenditure in years approaching death in HES data at our disposal.
 
-Average expenditure ... varies across age groups, being substantially greater for younger age groups than for those over 65 years. Using US Medicare data, Yang et al. (2003) report a similar finding that spending on inpatient care in the last year of life declines with age at death.
+Average expenditure ... varies across age groups, being substantially greater for younger age groups than for those over 65 years. Using US Medicare data, __Yang et al. (2003)__ report a similar finding that spending on inpatient care in the last year of life declines with age at death.
 
 Yang et al. (2003) report time to death as the main reason for inpatient expenditures using US Medicare data.
 
-Fries (1980), Aging, natural death, and the compression of morbidity.
-CHSEO (2014), Understanding emergency hospital admissions of older people
-Papers published by the Centre for Health Services Economics and Organisation (CHSEO) in 2014 and 2015 explore historic trends in hospital inpatient activity and attempt to disaggregate the drivers of change into “…factors associated with the patient’s age (age effect), factors associated with the patient’s year of birth (cohort effect) and factors associated with the year of the patient’s admission (period effect). The period effects could reflect either demand factors such as a change in patients’ expectations or supply factors such as adoption of new technologies.” CHSEO developed multivariate regression models predicting admissions by year (or service) and single year of age. They note difficulties arising from the co-linearity of the age, period and cohort predictor variables and explore a range of methods to address this issue.
+### Fries (1980), Aging, natural death, and the compression of morbidity.
+
+### CHSEO (2014), Understanding emergency hospital admissions of older people
+
+Papers published by the Centre for Health Services Economics and Organisation (CHSEO) in 2014 and 2015 explore historic trends in hospital inpatient activity and attempt to disaggregate the drivers of change into “…factors associated with the patient’s age (age effect), factors associated with the patient’s year of birth (cohort effect) and factors associated with the year of the patient’s admission (period effect). The period effects could reflect either demand factors such as a change in patients’ expectations or supply factors such as adoption of new technologies.”  CHSEO developed multivariate regression models predicting admissions by year (or service) and single year of age.  They note difficulties arising from the co-linearity of the age, period and cohort predictor variables and explore a range of methods to address this issue.
 
 CHSEO demonstrate that over recent years the cohort effect has largely offset demand pressures arising from the age effect, but suggest that this offsetting may diminish after 2021 as “those born shortly after WWII start to reach late old age”.
 
-Executive Summary
-Analysis of age, period and cohort effects provides helpful insights:  The age effect is as would be expected: admission rates fall with age to about age 30 and then rise monotonically with age from around age 40 upward.  The cohort effect is perhaps more surprising: each cohort from those born in around 1912 onward have experienced lower emergency admission rates after standardising for age and period effects.
+#### Executive Summary
 
-Major drivers of trends in older emergency admissions The underlying demand for emergency inpatient care in old age has been affected by rising numbers of older people and also by changes in the health state of the older population. The rise in numbers explains only around one-third of the rise in emergency admissions of older people. Reductions in the incidence and prevalence of serious illnesses and accidents in successive birth cohorts of the population have reduced the underlying demand for emergency admissions, as discussed below. Changes in attitudes, including arguably rising risk aversion among the public and among health and social care staff may have affected underlying demand. The increased scope for urgent and emergency care to diagnose and treat health conditions, and associated greater awareness of the rising effectiveness and availability of specialist diagnostic services and of urgent and emergency care, may also have put upward pressure on demand.
+Analysis of age, period and cohort effects provides helpful insights: The age effect is as would be expected: admission rates fall with age to about age 30 and then rise monotonically with age from around age 40 upward.  The cohort effect is perhaps more surprising: each cohort from those born in around 1912 onward have experienced lower emergency admission rates after standardising for age and period effects.
 
-The rise in the number of older emergency admissions would not have been possible without the fall in average length of stay and the increase in capacity, in particular medical staffing funded by rising NHS budgets. There was an unprecedented increase in real NHS spending in England from 2001/02 to 2009/10. The then Government decided to provide a strong boost to the funding of the NHS, with a view to bringing Britain’s health care share of Gross Domestic Product (GDP) up to the European average. Given previous less generous funding of the NHS and the consequent rationing of services and access to available technology, there was ample scope for the population to benefit from an improved quality and quantity of services. Rising real expenditure to 2009/10 allowed the NHS to fund rising numbers of emergency admissions of older people without needing to reduce other services. This period was however followed by three years during which spending remained constant in real terms and payments for additional emergency admissions above the 2008/09 level were reduced to only 30% of the normal tariff rate. During these years, 2010/11 to 2012/13, there was little further increase in ‘all ages’ emergency admissions, but emergency admissions of older people continued to rise.
 
-Period effects have been increasing over the period since 1999. They rose especially sharply between around 2002 and 2005 and have continued to rise (although it has not been possible to produce an estimate specifically for the period since 2010 when real NHS expenditure and all ages emergency admissions ceased to rise). Favourable cohort effects (the more recent the cohort, the lower the admission rate given the age) could represent improvements in health over time, or improved primary care, with healthy life expectancy rising as well as total life expectancy. These cohort effects currently broadly offset the age effect (the older the age group, the higher the admission rate, given the cohort) and the impact of rising numbers of older people. The rate of emergency admissions, averaged across all ages, has been falling for successive cohorts, after controlling for period effects. While the age and cohort effects are likely to reflect demographic and epidemiological change, the period effects capture admissions that could not have been anticipated given evidence from previous years: these would reflect both supply-side and policy innovations as well as any increases to patient demand. These effects are persistently important and include the contribution of increases in staff and other resources funded through the increase in expenditure on the NHS up to 2010, the uptake of new technologies and changes in clinical practice.
+Major drivers of trends in older emergency admissions
+The underlying demand for emergency inpatient care in old age has been affected by rising
+numbers of older people and also by changes in the health state of the older population. The
+rise in numbers explains only around one-third of the rise in emergency admissions of older
+people. Reductions in the incidence and prevalence of serious illnesses and accidents in
+successive birth cohorts of the population have reduced the underlying demand for
+emergency admissions, as discussed below. Changes in attitudes, including arguably rising
+risk aversion among the public and among health and social care staff may have affected
+underlying demand. The increased scope for urgent and emergency care to diagnose and
+treat health conditions, and associated greater awareness of the rising effectiveness and
+availability of specialist diagnostic services and of urgent and emergency care, may also
+have put upward pressure on demand.
 
-Period effects have been increasing over the period since 1999. They rose especially sharply between around 2002 and 2005 and have continued to rise (although it has not been possible to produce an estimate specifically for the period since 2010 when real NHS expenditure and all ages emergency admissions ceased to rise). Favourable cohort effects (the more recent the cohort, the lower the admission rate given the age) could represent improvements in health over time, or improved primary care, with healthy life expectancy rising as well as total life expectancy. These cohort effects currently broadly offset the age effect (the older the age group, the higher the admission rate, given the cohort) and the impact of rising numbers of older people. The rate of emergency admissions, averaged across all ages, has been falling for successive cohorts, after controlling for period effects. While the age and cohort effects are likely to reflect demographic and epidemiological change, the period effects capture admissions that could not have been anticipated given evidence from previous years: these would reflect both supply-side and policy innovations as well as any increases to patient demand. These effects are persistently important and include the contribution of increases in staff and other resources funded through the increase in expenditure on the NHS up to 2010, the uptake of new technologies and changes in clinical practice. Arguably one of the reasons for the substantial increase in NHS expenditure following the NHS Plan was to reduce rationing of access to new and existing technologies. There have over the last decade been improvements in access to relatively new diagnostics, drug therapies and surgical procedures, a rise in the numbers and types of imaging and radiodiagnostic examinations and a rise in the proportion of older emergency admissions involving a procedure. Evidence for the important role of technology is that the numbers of spells involving procedures has risen much more rapidly than the number not involving procedures and that the number of short spells (0-1 day) have risen far faster than the number of longer spells (2 and more days).
+The rise in the number of older emergency admissions would not have been possible without
+the fall in average length of stay and the increase in capacity, in particular medical staffing
+funded by rising NHS budgets. There was an unprecedented increase in real NHS spending
+in England from 2001/02 to 2009/10. The then Government decided to provide a strong
+boost to the funding of the NHS, with a view to bringing Britain’s health care share of Gross
+Domestic Product (GDP) up to the European average. Given previous less generous funding
+of the NHS and the consequent rationing of services and access to available technology,
+there was ample scope for the population to benefit from an improved quality and quantity of
+services. Rising real expenditure to 2009/10 allowed the NHS to fund rising numbers of
+emergency admissions of older people without needing to reduce other services. This
+period was however followed by three years during which spending remained constant in
+real terms and payments for additional emergency admissions above the 2008/09 level were
+reduced to only 30% of the normal tariff rate. During these years, 2010/11 to 2012/13, there
+was little further increase in ‘all ages’ emergency admissions, but emergency admissions of
+older people continued to rise.
 
-We have prepared projections to 2020/21, the end of the next Parliament, of the numbers of older emergency admissions and associated bed days. These are projections on the basis of specified assumptions about changes in emergency admission rates and length of stay and should not be regarded as forecasts. We examined through several scenarios what rate of change in older emergency admissions and bed days might be required over the period to 2020/21 to meet demand pressures and the impact of technological change without tightening the ‘eligibility criteria’ threshold for emergency admissions or greatly increasing alternatives to emergency inpatient care. The projected increase in numbers of older people is clearly one factor, albeit this demographic pressure will be greater after 2020 than in the next few years. The numbers of older people are projected to rise partly because of falling mortality rates and partly because of higher fertility rates in the years following World War II (WWII), i.e. the post-war baby boom. Even if need for emergency inpatient care at a given age (the cohort effect) continues to fall as mortality rates fall, unless the fall is very substantial the baby boom will in due course lead to increased admissions as those born shortly after WWII start to reach late old age. It happens however that in the years to 2020/21 the cohort effect seems likely to continue to offset the demographic effect. This means that whether the number of emergency admissions of older people continues to rise will depend heavily on future period effects. If period effects remain constant, the number of emergency admissions of older people is projected to rise only slightly, from 2.21 million in 2012/13 to 2.25 million in 2020/21. If period v effects follow trends since 2007/2008, however, the number of emergency admissions is projected to rise from 2.21 million in 2012/13 to 3.01 million in 2020/21. The latter projection is likely to be upward biased because it is based, unavoidably, on a six-year period which includes some years in which NHS expenditure was still growing. However, emergency admissions for older people did not stop growing after 2010/11 when NHS austerity was imposed, and a relatively high projection might capture, appropriately, other, new period effects, such as a greater emphasis on improved care for older people following the implementation of the Equalities Act provisions on age discrimination in public services and the recommendations of the Francis enquiry.
+Period effects have been increasing over the period since 1999. They rose especially
+sharply between around 2002 and 2005 and have continued to rise (although it has not
+been possible to produce an estimate specifically for the period since 2010 when real
+NHS expenditure and all ages emergency admissions ceased to rise).
+Favourable cohort effects (the more recent the cohort, the lower the admission rate given the
+age) could represent improvements in health over time, or improved primary care, with
+healthy life expectancy rising as well as total life expectancy. These cohort effects currently
+broadly offset the age effect (the older the age group, the higher the admission rate, given
+the cohort) and the impact of rising numbers of older people. The rate of emergency
+admissions, averaged across all ages, has been falling for successive cohorts, after
+controlling for period effects. While the age and cohort effects are likely to reflect
+demographic and epidemiological change, the period effects capture admissions that could
+not have been anticipated given evidence from previous years: these would reflect both
+supply-side and policy innovations as well as any increases to patient demand. These
+effects are persistently important and include the contribution of increases in staff and other
+resources funded through the increase in expenditure on the NHS up to 2010, the uptake of
+new technologies and changes in clinical practice.
 
-These projections are based on current policy and practice. They implicitly take account of the impact of past measures to reduce the number of potentially avoidable emergency hospital admissions. They do not however take account of the recent policy of NHS England to reduce emergency admissions by 15% by the end of this decade with the help of the Better Care Fund. Average lengths of stay of older emergency admissions are likely to continue to fall, even if not as rapidly as in recent years. If so, it is uncertain whether the number of total bed days will rise or fall but the overall change, whether positive or negative, seems unlikely to be large. What implications might these projections have for total expenditure on emergency care of older people? The cost of an emergency hospital spell has risen, albeit slowly, in real terms over recent years, despite the continuing reduction in average length of stay. It seems entirely possible that the uptake of new technology will, unless put on hold for some years, exert continuing upward pressure on cost per day bed of emergency inpatient care such that the cost of a spell will continue to rise. This suggests that, if the numbers of admissions continue to rise, even slightly, total expenditure would also need to continue to rise in real terms. In the period 2010/11 to 2012/13 expansion of admissions for older people has occurred without total admissions noticeably increasing. Our projections above for the older population do not therefore imply similar increases in total admissions, which may be more moderate.
+
+Period effects have been increasing over the period since 1999. They rose especially
+sharply between around 2002 and 2005 and have continued to rise (although it has not
+been possible to produce an estimate specifically for the period since 2010 when real
+NHS expenditure and all ages emergency admissions ceased to rise).
+Favourable cohort effects (the more recent the cohort, the lower the admission rate given the age) could represent improvements in health over time, or improved primary care, with healthy life expectancy rising as well as total life expectancy. These cohort effects currently broadly offset the age effect (the older the age group, the higher the admission rate, given the cohort) and the impact of rising numbers of older people. The rate of emergency admissions, averaged across all ages, has been falling for successive cohorts, after controlling for period effects. While the age and cohort effects are likely to reflect demographic and epidemiological change, the period effects capture admissions that could not have been anticipated given evidence from previous years: these would reflect both supply-side and policy innovations as well as any increases to patient demand. These effects are persistently important and include the contribution of increases in staff and other resources funded through the increase in expenditure on the NHS up to 2010, the uptake of new technologies and changes in clinical practice.
+Arguably one of the reasons for the substantial increase in NHS expenditure following the NHS Plan was to reduce rationing of access to new and existing technologies. There have over the last decade been improvements in access to relatively new diagnostics, drug therapies and surgical procedures, a rise in the numbers and types of imaging and radiodiagnostic
+examinations and a rise in the proportion of older emergency admissions
+involving a procedure. Evidence for the important role of technology is that the numbers of
+spells involving procedures has risen much more rapidly than the number not involving
+procedures and that the number of short spells (0-1 day) have risen far faster than the
+number of longer spells (2 and more days).
+
+We have prepared projections to 2020/21, the end of the next Parliament, of the numbers of
+older emergency admissions and associated bed days. These are projections on the basis of
+specified assumptions about changes in emergency admission rates and length of stay and
+should not be regarded as forecasts.
+We examined through several scenarios what rate of change in older emergency admissions
+and bed days might be required over the period to 2020/21 to meet demand pressures and
+the impact of technological change without tightening the ‘eligibility criteria’ threshold for
+emergency admissions or greatly increasing alternatives to emergency inpatient care.
+The projected increase in numbers of older people is clearly one factor, albeit this
+demographic pressure will be greater after 2020 than in the next few years. The numbers of
+older people are projected to rise partly because of falling mortality rates and partly because
+of higher fertility rates in the years following World War II (WWII), i.e. the post-war baby
+boom. Even if need for emergency inpatient care at a given age (the cohort effect) continues
+to fall as mortality rates fall, unless the fall is very substantial the baby boom will in due
+course lead to increased admissions as those born shortly after WWII start to reach late old
+age. It happens however that in the years to 2020/21 the cohort effect seems likely to
+continue to offset the demographic effect. This means that whether the number of
+emergency admissions of older people continues to rise will depend heavily on future period
+effects.
+If period effects remain constant, the number of emergency admissions of older people is
+projected to rise only slightly, from 2.21 million in 2012/13 to 2.25 million in 2020/21. If period 
+v
+effects follow trends since 2007/2008, however, the number of emergency admissions is
+projected to rise from 2.21 million in 2012/13 to 3.01 million in 2020/21. The latter projection
+is likely to be upward biased because it is based, unavoidably, on a six-year period which
+includes some years in which NHS expenditure was still growing. However, emergency
+admissions for older people did not stop growing after 2010/11 when NHS austerity was
+imposed, and a relatively high projection might capture, appropriately, other, new period
+effects, such as a greater emphasis on improved care for older people following the
+implementation of the Equalities Act provisions on age discrimination in public services and
+the recommendations of the Francis enquiry.
+
+These projections are based on current policy and practice. They implicitly take account of
+the impact of past measures to reduce the number of potentially avoidable emergency
+hospital admissions. They do not however take account of the recent policy of NHS England
+to reduce emergency admissions by 15% by the end of this decade with the help of the
+Better Care Fund.
+Average lengths of stay of older emergency admissions are likely to continue to fall, even if
+not as rapidly as in recent years. If so, it is uncertain whether the number of total bed days
+will rise or fall but the overall change, whether positive or negative, seems unlikely to be
+large.
+What implications might these projections have for total expenditure on emergency care of
+older people? The cost of an emergency hospital spell has risen, albeit slowly, in real terms
+over recent years, despite the continuing reduction in average length of stay. It seems
+entirely possible that the uptake of new technology will, unless put on hold for some years,
+exert continuing upward pressure on cost per day bed of emergency inpatient care such that
+the cost of a spell will continue to rise. This suggests that, if the numbers of admissions
+continue to rise, even slightly, total expenditure would also need to continue to rise in real
+terms.
+In the period 2010/11 to 2012/13 expansion of admissions for older people has occurred
+without total admissions noticeably increasing. Our projections above for the older
+population do not therefore imply similar increases in total admissions, which may be more
+moderate.
+
+
+Overall it appears important that current heightened perceptions of the burden of spiralling
+admissions, resulting from population aging, be re-considered: there are certainly more older
+people, but at a given age those born relatively more recently have fewer emergency
+admissions. This phenomenon of reduced emergency need among later-born cohorts turns
+out to be of no less importance in driving the number of emergency hospital admissions
+among older people than the aging of the population. Yet it appears to have escaped
+attention so far. It is possible that analyses of data for the period from 2013/14 onward will
+show that the end of real increases in NHS budgets resulted in no further increase in period
+effects. Continuation of past trends in increases in the number of emergency admissions of
+older people, even under present policy, is not inevitable.
 
 ...
 
-Overall it appears important that current heightened perceptions of the burden of spiralling admissions, resulting from population aging, be re-considered: there are certainly more older people, but at a given age those born relatively more recently have fewer emergency admissions. This phenomenon of reduced emergency need among later-born cohorts turns out to be of no less importance in driving the number of emergency hospital admissions among older people than the aging of the population. Yet it appears to have escaped attention so far. It is possible that analyses of data for the period from 2013/14 onward will show that the end of real increases in NHS budgets resulted in no further increase in period effects. Continuation of past trends in increases in the number of emergency admissions of older people, even under present policy, is not inevitable.
+Chapter 5: Only around one third (35%) of the rise in emergency admissions of older people between 2001/02 and 2012/13 can be explained by the rise in numbers of older people. 
 
-Age and cohort effects are largely determined by past circumstances, such as education, occupation, economic growth, conflict etc. The period effect however reflects contemporaneous circumstances such as current availability of resources. By making alternative assumptions about future period effects, we can create alternative projections. The two following scenarios are 1) a constant period effect scenario where the period effect held flat at 2011 level, which implies (very) significant progress by the NHS in averting the long run trend of rising emergency admission rates and which may prove challenging and 2) a trend period effect scenario where the period effect trends upwards at the same rate of growth as between 2007/08 to 2009/10 and 2010/11 to 2012/13.
+It is important to recognise that the question about compression or expansion need not have
+a single answer. There could be different trends for prevalence of self-reported poor health,
+specific chronic conditions, disability in terms of limiting long-standing illness, or severe
+disability in terms of conducting personal care tasks. In the context of our study what matters
+are trends in the incidence and prevalence of conditions likely to require urgent and
+emergency care services. It is also useful to distinguish between absolute and relative
+compression or expansion of morbidity. Absolute compression (expansion) occurs when the number of years with morbidity decreases (increases). Relative compression (expansion) occurs when the proportion of life with morbidity decreases (increases). 
 
-Strategy Unit Work
-From 2015 Demographics Packs.
+
+Since the key issue for this study is trends in conditions potentially requiring urgent and emergency care, the growing evidence on the association between health care costs and proximity to death seems pertinent. Various studies in different countries have shown that expenditure on acute health care rises with proximity to death rather than with age, that is it rises in line with time from the end rather than from the start of life. _Seshamani and Gray (2004)_ used longitudinal hospital data for Oxfordshire to explore the influence on health care expenditure of age and proximity to death. They found that, while age may significantly affect quarterly hospital costs, these cost changes are small compared to the tripling of quarterly
+costs that occurs with approaching death in the last year of life. _Werblow, Felder and Zweifel (2007)_ examined this issue, using Swiss data, for seven different components of health care expenditure. They found weak or no age effects for the components of health care expenditure when controlling for proximity to death but a strong positive relationship between proximity to death and an individual's health care cost. They argue that 'the cost of health care ultimately is driven by medical technology, some of which appears to be lavished on patients with rather limited remaining life expectancy'.
+
+This evidence that health care costs are much more closely associated with proximity to death than with age would suggest that the age-specific rate of emergency hospital
+admissions may have fallen as age-specific mortality rates in old age have fallen. This interpretation seems consistent with our finding discussed below on cohort effects in old age. An exception might be late old age when most people would be within a few years of death. Clinicians have commented that the number of very elderly people with complex conditions attending accident and emergency departments has risen over recent years. 
+
+
+# Read
+***
+
+Age and cohort effects are largely determined by past circumstances, such as education,
+occupation, economic growth, conflict etc. The period effect however reflects
+contemporaneous circumstances such as current availability of resources. By making
+alternative assumptions about future period effects, we can create alternative projections.
+The two following scenarios are 1) a constant period effect scenario where the period effect
+held flat at 2011 level, which implies (very) significant progress by the NHS in averting the
+long run trend of rising emergency admission rates and which may prove challenging and 2)
+a trend period effect scenario where the period effect trends upwards at the same rate of
+growth as between 2007/08 to 2009/10 and 2010/11 to 2012/13.
+
+
+
+
+# Strategy Unit Work
+
+# From 2015 Demographics Packs.
+
 “Standard forecasts highlight the potential for greater life expectancy to increase costs: medical costs generally increase with age, and greater life expectancy means that more of the elderly will be in the older age groups. Two factors work in the other direction, however. First, increases in life expectancy mean that a smaller share of the elderly will be in the last year of life, when medical costs generally are very high. Furthermore, more of the elderly will be dying at older ages, and end-of-life costs typically decline with age at death. Second, disability rates among the surviving population have been declining in recent years by 0.5 to 1.5 percent annually. Reductions in disability, if sustained, will also reduce medical spending. Thus, changes in disability and mortality should, on net, reduce average medical spending on the elderly. However, these effects are not as large as the projected increase in medical spending stemming from increases in overall medical costs. Technological change in medicine at anywhere near its historic rate would still result in a substantial public sector burden for medical costs.”
 
 Cutler DM, Sheiner L. Demographics and Medical care Spending: Standard and Non-Standard Effects. NBER Working Paper No. 6866. Dec 1998.
 
-Paliative Care in the West Mids
-In 2011 there were four hundred and fifty thousand deaths in England, lower than at any point since the NHS was founded, but since 2011 the number of deaths per annum has increased and ONS forecast that this upward trend will continue for the foreseeable future with a 25% increase in annual deaths by 2039.
 
-Projections produced by the Office of National Statistics suggest that the number of deaths is likely to increase slowly for the next 5 years before more rapid annual increases in deaths become the norm. By 2036 the number of deaths per annum is expected to be higher than at any point since 1946.
+### Paliative Care in the West Mids
 
-Between 2006 and 2014, the number of deaths of those aged over 85 years has grown by 29% from 16,000 to 20,600 and this trend is set to continue. Over the same period there have been reductions in the deaths of those aged 75 to 84 years although these reductions are set to level off in the near future. Marginal reductions in deaths in those aged under 75 are expected continue. Taken together, these changes suggest that the over 85s will account for 43% of deaths in the West Midlands by 2020, 6% points higher than in 2006.
+In 2011 there were four hundred and fifty thousand deaths in England, lower
+than at any point since the NHS was founded, but since 2011 the number of deaths per annum has
+increased and ONS forecast that this upward trend will continue for the foreseeable future with a
+25% increase in annual deaths by 2039. 
 
-The work of Dr June Lunney and Dr Joanne Lynn provides a useful means of classifying patients approaching death according to their health care needs. Five condition groups are defined with reference to the patient’s underlying cause of death and age; cancer, organ failure, frailty and degenerative conditions, other terminal illness and sudden deaths. Figure 2v shows that deaths in the frailty category have increased substantially since 2006 whereas deaths from organ failure, other terminal illness and sudden deaths have reduced. Cancer deaths have increased only marginally.
+Projections produced by the Office of National Statistics suggest that the number of
+deaths is likely to increase slowly for the next 5 years before more rapid annual increases in
+deaths become the norm. By 2036 the number of deaths per annum is expected to be
+higher than at any point since 1946.
 
-Understanding the Variation in Patterns of Acute Healthcare Utilisation Prior to Death, the Strategy Unit, March 2015
-The Strategy Unit, The Effect of Demographic Change on Acute Hospital Utilisation, December 2015
-Going Forwards : Literature on Forecasting
-Soyiri(2013), An overview of health forecasting
+Between 2006 and 2014, the number
+of deaths of those aged over 85 years has grown by 29% from 16,000 to 20,600 and this
+trend is set to continue. Over the same period there have been reductions in the deaths of
+those aged 75 to 84 years although these reductions are set to level off in the near future.
+Marginal reductions in deaths in those aged under 75 are expected continue. Taken
+together, these changes suggest that the over 85s will account for 43% of deaths in the
+West Midlands by 2020, 6% points higher than in 2006.
+
+The work of Dr June Lunney and Dr Joanne Lynn provides a useful means of classifying
+patients approaching death according to their health care needs. Five condition groups
+are defined with reference to the patient’s underlying cause of death and age; cancer,
+organ failure, frailty and degenerative conditions, other terminal illness and sudden deaths.
+Figure 2v shows that deaths in the frailty category have increased substantially since 2006
+whereas deaths from organ failure, other terminal illness and sudden deaths have reduced.
+Cancer deaths have increased only marginally.
+
+### Understanding the Variation in Patterns of Acute Healthcare Utilisation Prior to Death, the Strategy Unit, March 2015
+
+
+### The Strategy Unit, The Effect of Demographic Change on Acute Hospital Utilisation, December 2015
+
+# Going Forwards : Literature on Forecasting
+
+### Soyiri(2013), An overview of health forecasting
 https://www.ncbi.nlm.nih.gov/pmc/articles/PMC3541816/
