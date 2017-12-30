@@ -1,8 +1,9 @@
 ﻿/* 
 Notes:
-1. Zero months is less likely than one month as we're using the name of the month of death, rather than the 30 days to death. Eg. Death could occur on the 3rd of the month making multiple admissions in that "zero" month unlikely.
+1. Fixed: Zero months is less likely than one month as we're using the name of the month of death, rather than the 30 days to death. Eg. Death could occur on the 3rd of the month making multiple admissions in that "zero" month unlikely.
 2. This script differs from others by the fact that it includes deaths that occur in the following year. This seems logical to me.
-3. Population here is unhelpful?
+3. Ask about random assigment of 'frailty' to Lunney Group.
+4. Population here is unhelpful?
  */
 
 SELECT 
@@ -18,9 +19,9 @@ SELECT
   --, pop.[population]
   ,  COUNT([fyear]) as [admissions]
 FROM
+  
   (
-
-
+  
 SELECT 
   '201415' as [fyear]
   --, ip.encrypted_hesid
@@ -30,7 +31,7 @@ THEN N'00to04'
 WHEN startage > 89
 THEN '90plus' 
 WHEN startage is null
-THEN 'NULL'
+THEN NULL
 ELSE RIGHT('00' + ISNULL(CAST(FLOOR(startage / 5) * 5 as nvarchar(2)), ''), 2) + 
 'to' + RIGHT('00' + ISNULL(CAST((FLOOR(startage / 5) * 5) + 4 as nvarchar(2)), ''), 2) 
 END as [age_group] 
@@ -39,7 +40,7 @@ END as [age_group]
       WHEN '1' THEN 'M'
       WHEN '2' THEN 'F'
       END  as [gender]
-  , CCGCODE as [ccg_code]
+  --, CCGCODE as [ccg_code]
   , d.DerivedAge as [age_at_death]
   
   -- PROXIMITY TO DEATH
@@ -47,13 +48,23 @@ END as [age_group]
   , CASE
       WHEN d.Encrypted_HESid is null 
         then NULL
-      WHEN DATEDIFF(mm, ip.admidate, d.DOD) between 0 and 24 
-        then CAST(DATEDIFF(mm, ip.admidate, d.DOD) as nvarchar(8))
-      WHEN DATEDIFF(mm, ip.admidate, d.DOD) > 24
+		 WHEN DATEDIFF(dd, ip.admidate, d.DOD) between 0 and 730 
+        then CAST(
+		FLOOR(
+		DATEDIFF(dd, ip.admidate, d.DOD)/30.44 -- weighted over 4 years
+		) as nvarchar(8))
+      WHEN DATEDIFF(mm, ip.admidate, d.DOD) > 23
         then NULL
-      WHEN DATEDIFF(mm, ip.admidate, d.DOD) < 0
+      WHEN DATEDIFF(dd, ip.admidate, d.DOD) < 0
         then 'Error'
       ELSE 'Error' 
+      --WHEN DATEDIFF(mm, ip.admidate, d.DOD) between 0 and 24 
+      --  then CAST(DATEDIFF(mm, ip.admidate, d.DOD) as nvarchar(8))
+      --WHEN DATEDIFF(mm, ip.admidate, d.DOD) > 24
+      --  then NULL
+      --WHEN DATEDIFF(mm, ip.admidate, d.DOD) < 0
+      --  then 'Error'
+      --ELSE 'Error' 
       END [proximity_death]
 	  
 	-- LUNNEY GROUP --
@@ -179,4 +190,5 @@ GROUP BY
 
 ORDER BY
   cte.[gender],
-  [age_group]
+  [age_group],
+  [proximity_death]
