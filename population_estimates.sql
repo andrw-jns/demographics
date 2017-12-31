@@ -27,6 +27,7 @@ Should be able to update this now for 2016 estimates
   AND Gender   != 'P'
   AND LEN(agegroup) >2
   AND CCGCode is not null -- for years pre 2014 (no CCG)
+  AND AgeGroup != '85plus' -- for years pre 2014 (there is an 85plus AND 90plus group)
 
  ) cte
   
