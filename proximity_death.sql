@@ -1,4 +1,4 @@
-﻿/* 
+/* 
 Notes:
 1. Fixed: Zero months is less likely than one month as we're using the name of the month of death, rather than the 30 days to death. Eg. Death could occur on the 3rd of the month making multiple admissions in that "zero" month unlikely.
 2. This script differs from others by the fact that it includes deaths that occur in the following year. This seems logical to me.
@@ -30,7 +30,7 @@ WHEN (startage between 7001 and 7007)
 THEN N'00to04'
 WHEN startage > 89
 THEN '90plus' 
-WHEN startage is null
+WHEN startage is NULL
 THEN NULL
 ELSE RIGHT('00' + ISNULL(CAST(FLOOR(startage / 5) * 5 as nvarchar(2)), ''), 2) + 
 'to' + RIGHT('00' + ISNULL(CAST((FLOOR(startage / 5) * 5) + 4 as nvarchar(2)), ''), 2) 
@@ -46,18 +46,18 @@ END as [age_group]
   -- PROXIMITY TO DEATH
   
   , CASE
-      WHEN d.Encrypted_HESid is null 
+      WHEN d.Encrypted_HESid is NULL 
         then NULL
 		 WHEN DATEDIFF(dd, ip.admidate, d.DOD) between 0 and 730 
         then CAST(
 		FLOOR(
-		DATEDIFF(dd, ip.admidate, d.DOD)/30.44 -- weighted over 4 years
+		DATEDIFF(dd, ip.admidate, d.DOD)/30.44 -- average over 4 years
 		) as nvarchar(8))
       WHEN DATEDIFF(mm, ip.admidate, d.DOD) > 23
         then NULL
       WHEN DATEDIFF(dd, ip.admidate, d.DOD) < 0
-        then 'Error'
-      ELSE 'Error' 
+        then '999' -- Error code will be 999
+      ELSE '999' 
       --WHEN DATEDIFF(mm, ip.admidate, d.DOD) between 0 and 24 
       --  then CAST(DATEDIFF(mm, ip.admidate, d.DOD) as nvarchar(8))
       --WHEN DATEDIFF(mm, ip.admidate, d.DOD) > 24
