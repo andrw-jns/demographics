@@ -2,6 +2,10 @@
 "TEST DATA PULLED FROM SQL SERVER"
 ##################################
 
+# Notes:
+# proximity_to_death and admissions: Only 14/15
+# population: all years.
+
 "Notes: If we are to use period effect in a model (according to Steven's outline)
 we will need to make assumptions about future period effects"
 
@@ -12,11 +16,6 @@ library(tidyverse)
 # Turn off scientific notation:
 options(scipen = 999)
 
-# Notes:
-# proximity_to_death and admissions: Only 14/15
-# population: all years.
-
-# 20171230 ----------------------------------------------------------------
 
 # Load --------------------------------------------------------------------
 
@@ -64,6 +63,9 @@ population_projections <- read_csv(here("tmp", "population_projections.csv"), na
 # Age groupings should be based on literature, but provisionally:
 # 0-19 # 20-44 # 45-64 # 65-84 # 85+
 
+
+# Admissions --------------------------------------------------------------
+
 rate_admissions <- left_join(admissions, population_estimates, by = c("year", "gender", "age_group")) %>% 
   mutate(fyear = as.factor(fyear))
 
@@ -78,6 +80,7 @@ rate_gender_age <- rate_admissions %>%
   summarise(adm_rate_10k = (sum(admissions)/sum(population)*10000))
 
 
+# Lunney Group ------------------------------------------------------------
 
 tmp <- left_join(proximity_to_death, population_estimates, by = c("year", "gender", "age_group")) %>% 
   mutate(fyear = as.factor(fyear))
@@ -92,14 +95,8 @@ rate_lunney <- tmp %>%
             population = sum(population),
             adm_rate_10k = sum(admissions)/sum(population)*10000)
 
-# count_prox_basic <- tmp %>% 
-#   group_by(fyear, proximity_death) %>%
-#   summarise(admissions = sum(admissions, na.rm = T)) %>% 
-#   drop_na()
-# count_prox_age <- tmp %>% 
-#   group_by(fyear, proximity_death, age_band, lunney_group) %>%
-#   summarise(admissions = sum(admissions, na.rm = T)) %>% 
-#   drop_na()
+
+# Proximity to death ------------------------------------------------------
 
 rate_prox_basic <- tmp %>% 
   group_by(fyear, age_band, proximity_death, population) %>%
@@ -127,6 +124,10 @@ rate_prox_lunney <- tmp %>%
 
 
 # Plots: -------------------------------------------------------------------
+
+
+# *** ---------------------------------------------------------------------
+
 
 # Pop by year ------------------------------------------------------
 
