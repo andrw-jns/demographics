@@ -5,7 +5,7 @@ output: html_document
 
 # Summary of Previous Relevant Work (From SW's Proposal to HF)
 
-Papers published by the Centre for Health Services Economics and Organisation (CHSEO) in 2014 and 2015 explore historic trends in hospital inpatient activity and attempt to disaggregate the drivers of change into “…factors associated with the patient’s age (age effect), factors associated with the patient’s year of birth (cohort effect) and factors associated with the year of the patient’s admission (period effect).”  CHSEO developed multivariate regression models predicting admissions by year (or service) and single year of age.  They note difficulties arising from the co-linearity of the age, period and cohort predictor variables and explore a range of methods to address this issue. CHSEO demonstrate that over recent years the cohort effect has largely offset demand pressures arising from the age effect, but suggest that this offsetting may diminish after 2021 as “those born shortly after WWII start to reach late old age”.
+Papers published by the Centre for Health Services Economics and Organisation (CHSEO) in 2014 and 2015 explore historic trends in hospital inpatient activity and attempt to disaggregate the drivers of change into “…factors associated with the patient’s age (age effect), factors associated with the patient’s year of birth (cohort effect) and factors associated with the year of the patient’s admission __ eg. current policies, advances in technology, changes in capacity over time __(period effect).”  CHSEO developed multivariate regression models predicting admissions by year (or service) and single year of age.  They note difficulties arising from the co-linearity of the age, period and cohort predictor variables and explore a range of methods to address this issue. CHSEO demonstrate that over recent years the cohort effect has largely offset demand pressures arising from the age effect, but suggest that this offsetting may diminish after 2021 as “those born shortly after WWII start to reach late old age”.
 
 A paper published by the Centre for Health Economics examines historic trends in acute inpatient hospital activity with reference to a patient’s age, morbidity and proximity to death and concludes that “…health care activity rises substantially for individuals in the period before death so that expenditure is driven substantially by mortality in the population.”
 
@@ -208,6 +208,8 @@ costs that occurs with approaching death in the last year of life. _Werblow, Fel
 
 This evidence that health care costs are much more closely associated with proximity to death than with age would suggest that the age-specific rate of emergency hospital
 admissions may have fallen as age-specific mortality rates in old age have fallen. This interpretation seems consistent with our finding discussed below on cohort effects in old age. An exception might be late old age when most people would be within a few years of death. Clinicians have commented that the number of very elderly people with complex conditions attending accident and emergency departments has risen over recent years. 
+
+ At the population level demand depends on the numbers of older people and their morbidity, living arrangements and social attitudes. Demand, unlike need, also depends on the costs of care to patients and their ability and willingness to meet the costs.
 
 
 # Read complete 5.6 to the end of the Chapter.
