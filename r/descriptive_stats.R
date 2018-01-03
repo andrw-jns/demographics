@@ -8,7 +8,8 @@
 # population: all years.
 
 "Notes: If we are to use period effect in a model (according to Steven's outline)
-we will need to make assumptions about future period effects"
+we will need to make assumptions about future period effects.
+BUT we may not be using period effect, since we are only dealing with demand (population) factors?"
 
 library(here)
 library(stringr)
@@ -19,14 +20,20 @@ options(scipen = 999)
 
 
 # Load --------------------------------------------------------------------
+# 
+# proximity_to_death <- read_csv(here("tmp", "proximity_to_death.csv")) %>% 
+#   mutate_at(vars(2:5), funs(ifelse(. == "NULL", NA, .))) %>% 
+#   mutate(proximity_death = as.numeric(proximity_death)) %>% 
+#   # A Few NAs introduced by coersion due to the "Error". Recode in SQL to 999 (or smthg)
+#   # and then wouldn't have to re-code as numeric.
+#   mutate(year = as.numeric(str_sub(fyear, 1, 4))) %>% 
+#   select(fyear, year, everything())
 
-proximity_to_death <- read_csv(here("tmp", "proximity_to_death.csv")) %>% 
-  mutate_at(vars(2:5), funs(ifelse(. == "NULL", NA, .))) %>% 
-  mutate(proximity_death = as.numeric(proximity_death)) %>% 
-  # A Few NAs introduced by coersion due to the "Error". Recode in SQL to 999 (or smthg)
-  # and then wouldn't have to re-code as numeric.
+
+ip_data1 <- read_rds(here("data", "ip_data.RDS")) %>% 
   mutate(year = as.numeric(str_sub(fyear, 1, 4))) %>% 
   select(fyear, year, everything())
+
 
 
 population_estimates <- read_csv(here("tmp", "population_estimates.csv"), na = "NULL") %>% 
@@ -58,10 +65,13 @@ population_projections <- read_csv(here("tmp", "population_projections.csv"), na
 # group by age, group by gender
 # Age groupings should be based on literature, but provisionally:
 # 0-19 # 20-44 # 45-64 # 65-84 # 85+
+# 
+# tmp <- left_join(proximity_to_death, population_estimates, by = c("year", "gender", "age_group")) %>% 
+#   mutate(fyear = as.factor(fyear))
 
-tmp <- left_join(proximity_to_death, population_estimates, by = c("year", "gender", "age_group")) %>% 
-  mutate(fyear = as.factor(fyear))
 
+tmp <- left_join(ip_data1, population_estimates, by = c("year", "gender", "age_group")) %>% 
+  mutate_at(vars(fyear, age_group, age_band, gender, lunney_group), funs(factor))
 # How many NAs (ie. have no gender / age group)?
 
 # Admissions ---------------------------------------------------------
@@ -153,19 +163,24 @@ ggplot(test %>%
          summarise(adm_rate_10k = sum(admissions)/sum(population)*10000) %>% 
          drop_na(),
        aes(fyear, adm_rate_10k, colour = age_band))+
-  geom_point()
+  geom_point()+
+  geom_line(aes(group = age_band))
 
 
 # This plot needs attention: labels (!):
 ggplot(test %>% drop_na(),
        aes(fyear, adm_rate_10k, colour = age_band))+
-  geom_text(aes(label = gender), position = position_dodge(0.2), size = 2)+
-  geom_point()
+  ggrepel::geom_text_repel(aes(label = gender),
+                           size = 2,
+                           #colour = "black",
+                           data = test %>% drop_na() %>% filter(fyear == "201415" ))+
+  # geom_point()+
+  geom_line(aes(group = interaction(age_band, gender)))
 
 
 # Lunney Group -------------------------------------------------
 
-ggplot(rate_lunney %>% drop_na,
+ggplot(rate_lunney %>% drop_na %>% filter(fyear = "201415"),
        aes(fyear, adm_rate_10k, colour = age_band))+
   geom_point()+
   facet_wrap(~lunney_group)
