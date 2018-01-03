@@ -1,23 +1,19 @@
-/* 
+/* PROXIMITY TO DEATH AND LUNNEY GROUPS
+
 Notes:
 1. Fixed: Zero months is less likely than one month as we're using the name of the month of death, rather than the 30 days to death. Eg. Death could occur on the 3rd of the month making multiple admissions in that "zero" month unlikely.
 2. This script differs from others by the fact that it includes deaths that occur in the following year. This seems logical to me.
 3. Ask about random assigment of 'frailty' to Lunney Group.
-4. Population here is unhelpful?
+4. Population here is unhelpful.
  */
 
 SELECT 
   [fyear]
   , [age_group]
   , cte.[gender]
-  ---, [ccg_code]
-  
-  ---,  SUM(pop.[population]) as [population]
-  
   , proximity_death
   , lunney_group
-  --, pop.[population]
-  ,  COUNT([fyear]) as [admissions]
+  , COUNT([fyear]) as [admissions]
 FROM
   
   (
@@ -26,50 +22,43 @@ SELECT
   '201415' as [fyear]
   --, ip.encrypted_hesid
   , CASE
-WHEN (startage between 7001 and 7007) 
-THEN N'00to04'
-WHEN startage > 89
-THEN '90plus' 
-WHEN startage is NULL
-THEN NULL
-ELSE RIGHT('00' + ISNULL(CAST(FLOOR(startage / 5) * 5 as nvarchar(2)), ''), 2) + 
-'to' + RIGHT('00' + ISNULL(CAST((FLOOR(startage / 5) * 5) + 4 as nvarchar(2)), ''), 2) 
-END as [age_group] 
+	   WHEN (startage between 7001 and 7007) 
+       THEN N'00to04'
+     WHEN startage > 89
+       THEN '90plus' 
+     WHEN startage IS NULL
+       THEN NULL
+       ELSE RIGHT('00' + ISNULL(CAST(FLOOR(startage / 5) * 5 as nvarchar(2)), ''), 2) + 
+       'to' + RIGHT('00' + ISNULL(CAST((FLOOR(startage / 5) * 5) + 4 as nvarchar(2)), ''), 2) 
+     END as [age_group] 
   
   , CASE ip.sex
       WHEN '1' THEN 'M'
       WHEN '2' THEN 'F'
       END  as [gender]
-  --, CCGCODE as [ccg_code]
+
   , d.DerivedAge as [age_at_death]
   
   -- PROXIMITY TO DEATH
   
   , CASE
-      WHEN d.Encrypted_HESid is NULL 
-        then NULL
+      WHEN d.Encrypted_HESid IS NULL 
+        THEN NULL
 		 WHEN DATEDIFF(dd, ip.admidate, d.DOD) between 0 and 730 
-        then CAST(
+        THEN CAST(
 		FLOOR(
 		DATEDIFF(dd, ip.admidate, d.DOD)/30.44 -- average over 4 years
-		) as nvarchar(8))
+		) AS INT)
       WHEN DATEDIFF(mm, ip.admidate, d.DOD) > 23
         then NULL
       WHEN DATEDIFF(dd, ip.admidate, d.DOD) < 0
-        then '999' -- Error code will be 999
-      ELSE '999' 
-      --WHEN DATEDIFF(mm, ip.admidate, d.DOD) between 0 and 24 
-      --  then CAST(DATEDIFF(mm, ip.admidate, d.DOD) as nvarchar(8))
-      --WHEN DATEDIFF(mm, ip.admidate, d.DOD) > 24
-      --  then NULL
-      --WHEN DATEDIFF(mm, ip.admidate, d.DOD) < 0
-      --  then 'Error'
-      --ELSE 'Error' 
+        then 999 -- Error code will be 999
+      ELSE 999 
       END [proximity_death]
 	  
 	-- LUNNEY GROUP --
-	-- Note: understand these lines that randomly assign 'frailty'. Is this ED only?
-	,CASE 
+	-- Note: understand these lines that randomly assign 'frailty'. From where does this come?
+	  ,CASE 
 		 --WHEN arrivalage between 65 and 74 and RAND(CAST(NEWID() AS varbinary)) > 0.9 then 'Frailty' -- Randomly assigns 10% of arrivals in age range to Frailty deaths
 		 --WHEN DerivedAge between 75 and 84 and RAND(CAST(NEWID() AS varbinary)) > 0.7 then 'Frailty'    -- Randomly assigns 30% of arrivals in age range to Frailty deaths
 		 --WHEN DerivedAge between 85 and 120 and RAND(CAST(NEWID() AS varbinary)) > 0.2 then 'Frailty'   -- Randomly assigns 80% of arrivals in age range to Frailty deaths
@@ -141,8 +130,8 @@ END as [age_group]
 ----
 
 FROM [HESData].dbo.tbInpatients1415 ip
-  LEFT OUTER JOIN [StrategicReference].dbo.vwGPPracticeToCCGAndPCT ccg 
-    ON ip.gpprac = ccg.GPPractice 
+  -- LEFT OUTER JOIN [StrategicReference].dbo.vwGPPracticeToCCGAndPCT ccg 
+  --   ON ip.gpprac = ccg.GPPractice 
 
   LEFT OUTER JOIN 
     (
@@ -150,10 +139,13 @@ FROM [HESData].dbo.tbInpatients1415 ip
        a.[Encrypted_HESID]
        ,a.[DOD]
        ,a.[CAUSE_OF_DEATH]
-	   ,a.derivedage
+	     ,a.derivedage
+			 ,a.SUBSEQUENT_ACTIVITY_FLG
+		
     FROM 
     [ONS].[HESONS].[tbMortalityto1516] a
 	WHERE DOD between '2014-04-01' and '2016-03-31'
+	AND SUBSEQUENT_ACTIVITY_FLG IS NULL -- Ignore deaths with subseq activity.
     ) d
     ON ip.Encrypted_HESID = d.Encrypted_HESID
 
@@ -166,27 +158,12 @@ AND admimeth LIKE '2%' -- EMERGENCY ADMISSIONS​
 
 ) cte
 
---LEFT OUTER JOIN 
--- (
---  SELECT 
---    Population as [population]
---, AgeGroup
---, Gender
---, CCGCode
---  FROM StrategicReference.dbo.tbCCGPopEstimates_UPDATED_2017_03
---  WHERE Year = 2014 
---  ) pop 
---    ON cte.age_group  = pop.AgeGroup COLLATE database_default
---      AND cte.gender   = pop.Gender   COLLATE database_default
---      AND cte.ccg_code = pop.CCGCode  COLLATE database_default
-
 GROUP BY 
   [fyear]
   , [age_group]
   , cte.[gender]
   , proximity_death
   , lunney_group
-  --, [population]
 
 ORDER BY
   cte.[gender],
