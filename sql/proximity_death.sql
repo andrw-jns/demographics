@@ -46,13 +46,14 @@ SELECT
         THEN NULL
 		 WHEN DATEDIFF(dd, ip.admidate, d.DOD) between 0 and 730 
         THEN CAST(
-		FLOOR(
-		DATEDIFF(dd, ip.admidate, d.DOD)/30.44 -- average over 4 years
-		) AS INT)
+							FLOOR(
+								DATEDIFF(dd, ip.admidate, d.DOD)/30.44 -- average over 4 years
+										) AS INT
+									)
       WHEN DATEDIFF(mm, ip.admidate, d.DOD) > 23
-        then NULL
+        THEN NULL
       WHEN DATEDIFF(dd, ip.admidate, d.DOD) < 0
-        then 999 -- Error code will be 999
+        THEN 999 -- Error code will be 999
       ELSE 999 
       END [proximity_death]
 	  
@@ -142,12 +143,11 @@ FROM [HESData].dbo.tbInpatients1415 ip
 	     ,a.derivedage
 			 ,a.SUBSEQUENT_ACTIVITY_FLG
 		
-    FROM 
-    [ONS].[HESONS].[tbMortalityto1516] a
-	WHERE DOD between '2014-04-01' and '2016-03-31'
-	AND SUBSEQUENT_ACTIVITY_FLG IS NULL -- Ignore deaths with subseq activity.
+    FROM [ONS].[HESONS].[tbMortalityto1516] a
+		WHERE DOD between '2014-04-01' AND '2016-03-31'
+		AND SUBSEQUENT_ACTIVITY_FLG IS NULL -- Ignore deaths with subseq activity.
     ) d
-    ON ip.Encrypted_HESID = d.Encrypted_HESID
+  ON ip.Encrypted_HESID = d.Encrypted_HESID
 
 ---
 
