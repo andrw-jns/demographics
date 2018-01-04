@@ -16,6 +16,11 @@ BUT we may not be using period effect to predict, since we are only dealing with
 library(here)
 library(stringr)
 library(tidyverse)
+library(extrafont) # for theme_strategy.
+library(hrbrthemes)
+
+# devtools::install_github("thomasp85/patchwork")
+library(patchwork)
 
 # Turn off scientific notation:
 options(scipen = 999)
@@ -125,24 +130,46 @@ rate_prox_lunney <- ip_base %>%
 
 # Pop by year ------------------------------------------------------
 
-ggplot(population_estimates %>% 
+p_pop_est <- ggplot(population_estimates %>% 
          mutate(year = as.factor(year)) %>% 
          group_by(age_band, year, gender) %>% 
          summarise(population = sum(population)),
        aes(year, population, colour = age_band))+
-  geom_line(aes(group = interaction(age_band, gender))) # two groups.
-
+  geom_line(aes(group = interaction(age_band, gender)))+ # two groups.
+  theme(panel.grid.minor = element_blank(),
+        panel.grid.major.x = element_blank(),
+        axis.ticks = element_blank(),
+        legend.position = "none"
+  )+
+  ylim(0, 10e6)
 
 
 # Pop projections -------------------------------------------------------------
 
-ggplot(population_projections %>% 
+
+p_pop_proj <- ggplot(population_projections %>% 
          mutate(year = as.factor(year)) %>% 
          group_by(age_band, year, gender) %>% 
          summarise(population = sum(population)),
        aes(year, population, colour = age_band))+
-  geom_line(aes(group = interaction(age_band, gender))) # two groups.
-
+  geom_line(aes(group = interaction(age_band, gender))) + # two groups.
+  theme_minimal()+
+  theme(panel.grid.minor = element_blank(),
+        panel.grid.major.x = element_blank(),
+        axis.ticks = element_blank(),
+        axis.title.y = element_blank(),
+        axis.text.y = element_blank()
+        )+
+  ylim(0, 10e6) +
+  # ggrepel::geom_text_repel(aes(label = gender),
+  #                          size = 2,
+  #                          data = population_projections %>%
+  #                            mutate(year = as.factor(year)) %>%
+  #                            filter(year == 2017) %>%
+  #                            group_by(age_band, year, gender) %>%
+  #                            summarise(population = sum(population)))
+  # 
+p_pop_est + p_pop_proj
 
 
 # Adm by age band, and age and gender -----------------------------------
