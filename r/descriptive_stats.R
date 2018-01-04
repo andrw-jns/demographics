@@ -20,15 +20,6 @@ options(scipen = 999)
 
 
 # Load --------------------------------------------------------------------
-# 
-# proximity_to_death <- read_csv(here("tmp", "proximity_to_death.csv")) %>% 
-#   mutate_at(vars(2:5), funs(ifelse(. == "NULL", NA, .))) %>% 
-#   mutate(proximity_death = as.numeric(proximity_death)) %>% 
-#   # A Few NAs introduced by coersion due to the "Error". Recode in SQL to 999 (or smthg)
-#   # and then wouldn't have to re-code as numeric.
-#   mutate(year = as.numeric(str_sub(fyear, 1, 4))) %>% 
-#   select(fyear, year, everything())
-
 
 ip_data1 <- read_rds(here("data", "ip_data.RDS")) %>% 
   mutate(year = as.numeric(str_sub(fyear, 1, 4))) %>% 
@@ -59,24 +50,22 @@ population_projections <- read_csv(here("tmp", "population_projections.csv"), na
 
 #  ***----------------------------------------------------------------
 
+# Wrangle: -----------------------------------------------------------------
 
-# Wrangle -----------------------------------------------------------------
+# *** -------------------------------------------------------------------
+
 
 # group by age, group by gender
 # Age groupings should be based on literature, but provisionally:
 # 0-19 # 20-44 # 45-64 # 65-84 # 85+
-# 
-# tmp <- left_join(proximity_to_death, population_estimates, by = c("year", "gender", "age_group")) %>% 
-#   mutate(fyear = as.factor(fyear))
 
-
-tmp <- left_join(ip_data1, population_estimates, by = c("year", "gender", "age_group")) %>% 
+ip_base <- left_join(ip_data1, population_estimates, by = c("year", "gender", "age_group")) %>% 
   mutate_at(vars(fyear, age_group, age_band, gender, lunney_group), funs(factor))
 # How many NAs (ie. have no gender / age group)?
 
 # Admissions ---------------------------------------------------------
 
-test <- tmp %>% 
+admis <- ip_base %>% 
   group_by(fyear, age_band, gender, population) %>%
   summarise(admissions = sum(admissions)) %>% 
   ungroup() %>% 
@@ -89,7 +78,7 @@ test <- tmp %>%
 # Lunney Group -------------------------------------------------------
 "Random assignment of 'Frailty' may need to be added to SQL"
 
-rate_lunney <- tmp %>% 
+rate_lunney <- ip_base %>% 
   group_by(fyear, age_band, lunney_group, population) %>% 
   summarise(admissions = sum(admissions, na.rm = T)) %>% 
   ungroup() %>% 
@@ -101,7 +90,7 @@ rate_lunney <- tmp %>%
 
 # Proximity to death ------------------------------------------------------
 
-rate_prox_basic <- tmp %>% 
+rate_prox_basic <- ip_base %>% 
   group_by(fyear, age_band, proximity_death, population) %>%
   summarise(admissions = sum(admissions, na.rm = T)) %>%
   ungroup() %>% 
@@ -112,7 +101,7 @@ rate_prox_basic <- tmp %>%
   drop_na()
 
 
-rate_prox_lunney <- tmp %>% 
+rate_prox_lunney <- ip_base %>% 
   group_by(fyear, age_band, proximity_death, lunney_group, population) %>%
   summarise(admissions = sum(admissions, na.rm = T)) %>%
   ungroup() %>% 
@@ -154,11 +143,10 @@ ggplot(population_projections %>%
 
 
 
-
 # Adm by age band, and age and gender -----------------------------------
 
 # Basic Age band by year:
-ggplot(test %>%
+ggplot(admis %>%
          group_by(fyear, age_band) %>%
          summarise(adm_rate_10k = sum(admissions)/sum(population)*10000) %>% 
          drop_na(),
@@ -168,12 +156,13 @@ ggplot(test %>%
 
 
 # This plot needs attention: labels (!):
-ggplot(test %>% drop_na(),
+ggplot(admis %>% drop_na(),
        aes(fyear, adm_rate_10k, colour = age_band))+
   ggrepel::geom_text_repel(aes(label = gender),
+                           nudge_x = 2,
                            size = 2,
                            #colour = "black",
-                           data = test %>% drop_na() %>% filter(fyear == "201415" ))+
+                           data = admis %>% drop_na() %>% filter(fyear == "201415" ))+
   # geom_point()+
   geom_line(aes(group = interaction(age_band, gender)))
 
