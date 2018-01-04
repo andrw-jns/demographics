@@ -162,13 +162,14 @@ p_pop_proj <- ggplot(population_projections %>%
         )+
   ylim(0, 10e6) +
   # ggrepel::geom_text_repel(aes(label = gender),
+  # geom_text(aes(label = gender),
   #                          size = 2,
   #                          data = population_projections %>%
   #                            mutate(year = as.factor(year)) %>%
   #                            filter(year == 2017) %>%
   #                            group_by(age_band, year, gender) %>%
   #                            summarise(population = sum(population)))
-  # 
+
 p_pop_est + p_pop_proj
 
 
