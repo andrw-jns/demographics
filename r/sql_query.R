@@ -3,6 +3,8 @@
 "PULL DATA FROM SQL"
 ####################
 
+"NEEDS UPDATING IN LINE WITH NEW SQL PROX.. QUERY"
+
 library(DBI)
 library(odbc)
 library(dbplyr)

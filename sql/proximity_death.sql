@@ -11,6 +11,7 @@ SELECT
   [fyear]
   , [age_group]
   , cte.[gender]
+	, [admi_type]
   , proximity_death
   , lunney_group
   , COUNT([fyear]) as [admissions]
@@ -38,7 +39,13 @@ SELECT
       END  as [gender]
 
   , d.DerivedAge as [age_at_death]
-  
+	, CASE
+			WHEN admimeth LIKE '2%' 
+				THEN 'em'
+			WHEN admimeth LIKE '1%'
+				THEN 'el'
+		END [admi_type]
+	
   -- PROXIMITY TO DEATH
   
   , CASE
@@ -154,7 +161,7 @@ FROM [HESData].dbo.tbInpatients1415 ip
 WHERE 
 1 = 1 
 AND epiorder = 1
-AND admimeth LIKE '2%' -- EMERGENCY ADMISSIONS​
+
 
 ) cte
 
@@ -162,6 +169,7 @@ GROUP BY
   [fyear]
   , [age_group]
   , cte.[gender]
+	, [admi_type]
   , proximity_death
   , lunney_group
 
