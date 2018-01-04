@@ -225,10 +225,21 @@ long run trend of rising emergency admission rates and which may prove challengi
 a trend period effect scenario where the period effect trends upwards at the same rate of
 growth as between 2007/08 to 2009/10 and 2010/11 to 2012/13.
 
+There appears to be a relationship between expenditure and emergency activity, which would cause problems of circularity if these projections are used to inform policies such as the Comprehensive Spending Review. Nevertheless, the APC projections in particular provide a reasonable guide as to what might be expected to occur under different assumptions.
 
 
+Conclusions: The rise in emergency admissions was almost entirely due to a period effect which increased consistently throughout 2001/02 to 2012/13. This period effect captures that element of the rise in admissions which is due neither to increases in the population nor to changes between birth cohorts in the proportion of people by age experiencing an emergency hospital admission, but rather to sources arising within the years concerned.
 
-# Strategy Unit Work
+The key question for projecting future numbers of emergency admissions of older people is whether the period effect will continue along the lines of recent trends.
+
+This phenomenon of reduced emergency need among later-born cohorts turns
+72
+out to be of no less importance in driving the number of emergency hospital admissions among older people than the aging of the population. Yet it appears to have escaped attention so far. It is possible that analyses of data for the period from 2013/14 onward will show that the end of real increases in NHS budgets resulted in no further increase in period effects.
+
+Secondly, it appears to have been possible to use a marginal tariff rate under PbR, substantially below average cost per treatment, to discourage the growth of emergency admissions from 2011 to 2013, although there is a lack of evidence on the consequences of this measure for patients’ health.
+Finally, the much higher growth, for all age groups, of emergency admissions in London than elsewhere deserves investigation. An understanding of why the increase in London has been so much more rapid than the more limited pace of increase in the rest of England could provide helpful information to inform the development of policy and practice and ensure that London’s exceptional experience does not introduce a bias to national policy making.
+
+# Strategy Unit Work: Unable to find!!!
 
 # From 2015 Demographics Packs.
 
