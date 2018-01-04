@@ -9,7 +9,9 @@
 
 "Notes: If we are to use period effect in a model (according to Steven's outline)
 we will need to make assumptions about future period effects.
-BUT we may not be using period effect, since we are only dealing with demand (population) factors?"
+BUT we may not be using period effect to predict, since we are only dealing with demand (population) factors?"
+
+"By REGION? Will we observe the London effect?"
 
 library(here)
 library(stringr)
@@ -72,7 +74,7 @@ admis <- ip_base %>%
   group_by(fyear, age_band, gender) %>% 
   summarise(admissions = sum(admissions),
             population = sum(population),
-            adm_rate_10k = sum(admissions)/sum(population)*10000)
+            adm_rate_10k = sum(admissions)/sum(population)*1000)
 
 
 # Lunney Group -------------------------------------------------------
@@ -85,7 +87,7 @@ rate_lunney <- ip_base %>%
   group_by(fyear, age_band, lunney_group) %>% 
   summarise(admissions = sum(admissions),
             population = sum(population),
-            adm_rate_10k = sum(admissions)/sum(population)*10000)
+            adm_rate_10k = sum(admissions)/sum(population)*1000)
 
 
 # Proximity to death ------------------------------------------------------
@@ -97,7 +99,7 @@ rate_prox_basic <- ip_base %>%
   group_by(fyear, age_band, proximity_death) %>% 
   summarise(admissions = sum(admissions),
             population = sum(population),
-            adm_rate_10k = sum(admissions)/sum(population)*10000) %>% 
+            adm_rate_10k = sum(admissions)/sum(population)*1000) %>% 
   drop_na()
 
 
@@ -108,7 +110,7 @@ rate_prox_lunney <- ip_base %>%
   group_by(fyear, age_band, proximity_death, lunney_group) %>% 
   summarise(admissions = sum(admissions),
             population = sum(population),
-            adm_rate_10k = sum(admissions)/sum(population)*10000) %>% 
+            adm_rate_10k = sum(admissions)/sum(population)*1000) %>% 
   drop_na()
 
 
@@ -148,7 +150,7 @@ ggplot(population_projections %>%
 # Basic Age band by year:
 ggplot(admis %>%
          group_by(fyear, age_band) %>%
-         summarise(adm_rate_10k = sum(admissions)/sum(population)*10000) %>% 
+         summarise(adm_rate_10k = sum(admissions)/sum(population)*1000) %>% 
          drop_na(),
        aes(fyear, adm_rate_10k, colour = age_band))+
   geom_point()+
