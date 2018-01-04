@@ -21,7 +21,7 @@ connection <- dbConnect(odbc::odbc(),
                         port = 1433 # always 1433
                         )
 
-#  -------------------------------------------------------------------
+# 2. Preparation for Loop --------------------------------------------
 
 create_year_vector <- function(start_year_dbl, number_of_years){
   
@@ -38,6 +38,8 @@ years <- create_year_vector(0506, 10)
 ## "pre-allocate" an empty list of length 5
 ip_data <- vector("list", 10)
 
+# 3. Loop  -----------------------------------------------------------
+
 for(i in seq_along(years)){
   
   # simpler way to do this is add a couple of years to 'years' and then years[i+1]:
@@ -49,13 +51,13 @@ for(i in seq_along(years)){
   ip_data[[i]] <- dbGetQuery(connection,
                             str_c(
                               "
-/* PROXIMITY TO DEATH AND LUNNEY GROUPS
+                              /* ADMISSIONS, PROXIMITY TO DEATH, AND LUNNEY GROUPS
 
                               Notes:
                               1. Fixed: Zero months is less likely than one month as we're using the name of the month of death, rather than the 30 days to death. Eg. Death could occur on the 3rd of the month making multiple admissions in that zero month unlikely.
                               2. This script differs from others by the fact that it includes deaths that occur in the following year. This seems logical to me.
                               3. Ask about random assigment of 'frailty' to Lunney Group.
-                              4. Population here is unhelpful.
+                              4. CCGs 
                               */
                               
                               SELECT 
