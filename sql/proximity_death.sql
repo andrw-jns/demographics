@@ -51,13 +51,13 @@ SELECT
   , CASE
       WHEN d.Encrypted_HESid IS NULL 
         THEN NULL
-		 WHEN DATEDIFF(dd, ip.admidate, d.DOD) between 0 and 730 
+		 WHEN DATEDIFF(dd, ip.admidate, d.DOD) between 0 and 365 
         THEN CAST(
 							FLOOR(
-								DATEDIFF(dd, ip.admidate, d.DOD)/30.44 -- average over 4 years
+								DATEDIFF(dd, ip.admidate, d.DOD)/30.42 -- average over 4 years
 										) AS INT
 									)
-      WHEN DATEDIFF(mm, ip.admidate, d.DOD) > 23
+      WHEN DATEDIFF(dd, ip.admidate, d.DOD) > 730
         THEN NULL
       WHEN DATEDIFF(dd, ip.admidate, d.DOD) < 0
         THEN 999 -- Error code will be 999

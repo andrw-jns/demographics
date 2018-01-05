@@ -22,7 +22,7 @@ Should be able to update this now for 2016 estimates
   FROM StrategicReference.dbo.tbCCGPopEstimates_UPDATED_2017_03
   WHERE 
   -- Year = 2014 AND 
-  Year > 2005 AND
+  Year > 2004 AND
   AgeGroup != 'AllAges'
   AND Gender   != 'P'
   AND LEN(agegroup) >2
