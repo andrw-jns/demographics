@@ -30,22 +30,18 @@ options(scipen = 999)
 
 ip_data1 <- read_rds(here("data", "ip_data.RDS")) %>% 
   mutate(year = as.numeric(str_sub(fyear, 1, 4))) %>% 
-  select(fyear, year, everything())
-
-
-
-population_estimates <- read_csv(here("tmp", "population_estimates.csv"), na = "NULL") %>% 
+  select(fyear, year, everything()) %>% 
   mutate(age_band = case_when(
     str_detect(.$age_group, "^0|^1")      ~ "00to19",
     str_detect(.$age_group, "^2|^3|^40")  ~ "20to44",
     str_detect(.$age_group, "^45|^5|^60") ~ "45to64",
     str_detect(.$age_group, "^65|^7|^80") ~ "65to84",
     str_detect(.$age_group, "^85|^90")    ~ "85plus"
-  )) %>% 
-  filter(!age_group == "85plus") # problem will be fixed at root.
+  ))
 
-
-population_projections <- read_csv(here("tmp", "population_projections.csv"), na = "NULL") %>% 
+population_estimates <- read_rds(here("data", "AJ_2018-01-05_pop_est.RDS"))
+ 
+population_projections <- read_rds(here("data", "AJ_2018-01-05_pop_proj.RDS")) %>% 
   mutate(age_band = case_when(
     str_detect(.$age_group, "^0|^1")      ~ "00to19",
     str_detect(.$age_group, "^2|^3|^40")  ~ "20to44",
@@ -79,7 +75,7 @@ admis <- ip_base %>%
   group_by(fyear, age_band, gender) %>% 
   summarise(admissions = sum(admissions),
             population = sum(population),
-            adm_rate_10k = sum(admissions)/sum(population)*1000)
+            adm_rate_1k = sum(admissions)/sum(population)*1000)
 
 
 # Lunney Group -------------------------------------------------------
@@ -92,7 +88,7 @@ rate_lunney <- ip_base %>%
   group_by(fyear, age_band, lunney_group) %>% 
   summarise(admissions = sum(admissions),
             population = sum(population),
-            adm_rate_10k = sum(admissions)/sum(population)*1000)
+            adm_rate_1k = sum(admissions)/sum(population)*1000)
 
 
 # Proximity to death ------------------------------------------------------
@@ -104,7 +100,7 @@ rate_prox_basic <- ip_base %>%
   group_by(fyear, age_band, proximity_death) %>% 
   summarise(admissions = sum(admissions),
             population = sum(population),
-            adm_rate_10k = sum(admissions)/sum(population)*1000) %>% 
+            adm_rate_1k = sum(admissions)/sum(population)*1000) %>% 
   drop_na()
 
 
@@ -115,7 +111,7 @@ rate_prox_lunney <- ip_base %>%
   group_by(fyear, age_band, proximity_death, lunney_group) %>% 
   summarise(admissions = sum(admissions),
             population = sum(population),
-            adm_rate_10k = sum(admissions)/sum(population)*1000) %>% 
+            adm_rate_1k = sum(admissions)/sum(population)*1000) %>% 
   drop_na()
 
 
@@ -178,16 +174,16 @@ p_pop_est + p_pop_proj
 # Basic Age band by year:
 ggplot(admis %>%
          group_by(fyear, age_band) %>%
-         summarise(adm_rate_10k = sum(admissions)/sum(population)*1000) %>% 
+         summarise(adm_rate_1k = sum(admissions)/sum(population)*1000) %>% 
          drop_na(),
-       aes(fyear, adm_rate_10k, colour = age_band))+
+       aes(fyear, adm_rate_1k, colour = age_band))+
   geom_point()+
   geom_line(aes(group = age_band))
 
 
 # This plot needs attention: labels (!):
 ggplot(admis %>% drop_na(),
-       aes(fyear, adm_rate_10k, colour = age_band))+
+       aes(fyear, adm_rate_1k, colour = age_band))+
   ggrepel::geom_text_repel(aes(label = gender),
                            nudge_x = 2,
                            size = 2,
@@ -200,7 +196,7 @@ ggplot(admis %>% drop_na(),
 # Lunney Group -------------------------------------------------
 
 ggplot(rate_lunney %>% drop_na %>% filter(fyear = "201415"),
-       aes(fyear, adm_rate_10k, colour = age_band))+
+       aes(fyear, adm_rate_1k, colour = age_band))+
   geom_point()+
   facet_wrap(~lunney_group)
 # highlights the lunney group
@@ -210,7 +206,7 @@ ggplot(rate_lunney %>% drop_na %>% filter(fyear = "201415"),
 "Will have to decide when all years data"
 
 ggplot(rate_lunney %>% drop_na,
-       aes(fyear, adm_rate_10k, colour = lunney_group))+
+       aes(fyear, adm_rate_1k, colour = lunney_group))+
   geom_point()+
   facet_wrap(~age_band)
 # highlights the affect of age 
@@ -223,11 +219,11 @@ ggplot(rate_prox_basic, aes(proximity_death, admissions, colour = age_band))+
   geom_line()
 
 # How to interpret admission rate by proximity to death?
-# 800 admissions per 10k (over 85) population are due last month of life?
-ggplot(rate_prox_basic, aes(proximity_death, adm_rate_10k, colour = age_band))+
+# 800 admissions per 1k (over 85) population are due last month of life?
+ggplot(rate_prox_basic, aes(proximity_death, adm_rate_1k, colour = age_band))+
   geom_line()
 
-ggplot(rate_prox_lunney, aes(proximity_death, adm_rate_10k))+
+ggplot(rate_prox_lunney, aes(proximity_death, adm_rate_1k))+
   geom_line(aes(group = lunney_group, colour = lunney_group))+
   facet_wrap(~age_band, scales = "free")
 
