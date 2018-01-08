@@ -3,8 +3,10 @@
 "MODEL EXPERIMENTATION"
 ####################################
 
-# The purpose of this script is to quickly explore/understand why certain models don't work.
+# The purpose of this script is to quickly explore/understand why certain models don't work,
 # And how a future modelling process might best be structured.
+
+options(na.action = na.warn)
 
 library(apc)
 library(here)
