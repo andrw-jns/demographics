@@ -10,6 +10,7 @@ options(na.action = na.warn)
 
 library(apc)
 library(here)
+library(modelr)
 library(tidyverse)
 
 "Try GAMs"
@@ -40,15 +41,46 @@ tmp <- ip_base %>%
             adm_rate_1k = sum(admissions)/sum(population)*1000)
 
 
+# na_observations <- tmp %>% filter_all(any_vars(is.na(.)))
 
-# Distribution -------------------------------------------------------
+# But should still consider them as part of total admissions. Could 
+# distribute them to ages according to gender distribution, or are one group
+# more likely to have no age recorded. Could explore if necessary.
+
+tmp %>% filter(year == 2014, gender == "M") %>% 
+  drop_na() %>% 
+  summarise(sum(admissions))
+
+# There are 100 rows of complete cases, 80 including NAs.
+# Mostly cases of genders missing an age. [Small Fraction of the Data
+# 11k in 2.7M or 0.4% ].
+
+
+
+# Distributions -------------------------------------------------------
 
 ggplot(tmp %>%  drop_na, aes(adm_rate_1k))+
-  geom_histogram()
+  geom_histogram(bins = 50)
 # Is more a nbinom, than the distribuion of counts
 
 
+ggplot(tmp %>%  drop_na, aes(admissions))+
+  geom_histogram(bins = 20)
+# Is more a nbinom, than the distribuion of counts
+
+install.packages("fitdistrplus")
+library(fitdistrplus)
+
+plot(fitdist(tmp %>% drop_na %>% pull(admissions), "nbinom"))
+plot(fitdist(tmp %>% drop_na %>% pull(admissions), "pois"))
+
+
+# plot(fitdist(tmp %>% drop_na %>% pull(adm_rate_1k), "gamma"))
+# plot(fitdist(tmp %>% drop_na %>% pull(adm_rate_1k), "weibull"))
+plot(fitdist(tmp %>% drop_na %>% pull(adm_rate_1k), "lnorm"))
+
 # Models -------------------------------------------------------------
+
 
 "Is it reasonable to have year as a variable in this model? WHAT IF JUST
 the interaction between AGE_BAND and gender. Then F 20to44 from 2009 would 
@@ -58,6 +90,7 @@ YEAR takes into period factors (ie. gov policy) as well as (implicitly)
 changes in the population size. Really, we want the formula independent
 of (year by year) year because it's impossible to foresee how this may change.
 Which is what APC method is getting at."
+
 
 mod_nb_count <- MASS::glm.nb(admissions ~ age_band + gender + year + offset(log(population)),
                              data = tmp %>% drop_na)
@@ -81,14 +114,46 @@ mod_nb_rate_3int <- MASS::glm.nb(adm_rate_1k ~ age_band*gender*year, # + offset(
 # How a formula would be interpreted:
 # m_matrix <- modelr::model_matrix(tmp, adm_rate_1k ~ age_band*gender*year)
 
+model_matrix(tmp, adm_rate_1k ~ age_band+gender+year) # 7 variables
+model_matrix(tmp, adm_rate_1k ~ age_band*gender+year) # 11 variables
+model_matrix(tmp, adm_rate_1k ~ age_band*gender*year) # 20 variables
 
+# Choose BIC:
+BIC(mod_nb_rate)
+BIC(mod_nb_rate_int)
+BIC(mod_nb_rate_3int)
+# As expected rate_int provides a good balance between fit and dof.
+
+broom::glance(mod_nb_rate_int)
+
+# Create model function:
+nb_rate_int_model <- function(df) {
+  MASS::glm.nb(adm_rate_1k ~ age_band*gender + year, data = df)
+}
+
+# Artificial use of nest, but it's useful for learning purposes.
+tmp_nest <- tmp %>% 
+  mutate(title_gender = gender, title_age = age_band) %>%
+  drop_na %>%
+  group_by(title_gender, title_age) %>%
+  nest() %>% 
+  mutate(mod_nb = map(data, nb_rate_int_model))
+
+# The model relies obviously relies on the whole dataframe! There is no subsetting
+# like in the R4DS method.
+
+tmp_nest_2 <- tmp %>% ungroup %>% nest %>% 
+  mutate(mod_nb = map(data, nb_rate_int_model))
+
+# Can add more models and more predictions from this point.
+  
 # Add predictions ----------------------------------------------------
-
-crimp <- modelr::add_predictions(tmp, mod_nb_count) %>% 
-  mutate(pred = exp(pred))
-
-crimp2 <- modelr::add_predictions(tmp, mod_nb_rate) %>% 
-  mutate(pred = exp(pred))
+# 
+# crimp <- modelr::add_predictions(tmp, mod_nb_count) %>% 
+#   mutate(pred = exp(pred))
+# 
+# crimp2 <- modelr::add_predictions(tmp, mod_nb_rate) %>% 
+#   mutate(pred = exp(pred))
 
 crimp3 <- modelr::add_predictions(tmp, mod_nb_rate_int) %>% 
   mutate(pred = exp(pred))
@@ -97,23 +162,23 @@ crimp3 <- modelr::add_predictions(tmp, mod_nb_rate_int) %>%
 #   mutate(pred = exp(pred))
 
 # Issue with number of predictors similar to degrees freedom?
-crimp32 <-  modelr::add_predictions(tmp, mod_nb_rate_3int) %>% 
-  mutate(pred = exp(pred))
+# crimp32 <-  modelr::add_predictions(tmp, mod_nb_rate_3int) %>% 
+#   mutate(pred = exp(pred))
 
 
 # Plots --------------------------------------------------------------
 
-ggplot(data = tmp %>% drop_na(), aes(year, admissions/population*1000, colour= age_band))+
-  geom_line(aes(group = interaction(age_band, gender))) +
-  geom_point(data = crimp %>% drop_na(),
-             aes(year, pred/population*1000, colour = age_band, group = interaction(age_band, gender)))
-
-
-ggplot(data = tmp %>% drop_na(), aes(year, adm_rate_1k, colour= age_band))+
-  geom_line(aes(group = interaction(age_band, gender))) +
-  geom_point(data = crimp2 %>% drop_na(),
-             aes(year, pred, colour = age_band, group = interaction(age_band, gender)))#+
-  # ylim(50, 90)
+# ggplot(data = tmp %>% drop_na(), aes(year, admissions/population*1000, colour= age_band))+
+#   geom_line(aes(group = interaction(age_band, gender))) +
+#   geom_point(data = crimp %>% drop_na(),
+#              aes(year, pred/population*1000, colour = age_band, group = interaction(age_band, gender)))
+# 
+# 
+# ggplot(data = tmp %>% drop_na(), aes(year, adm_rate_1k, colour= age_band))+
+#   geom_line(aes(group = interaction(age_band, gender))) +
+#   geom_point(data = crimp2 %>% drop_na(),
+#              aes(year, pred, colour = age_band, group = interaction(age_band, gender)))#+
+#   # ylim(50, 90)
 
 # The issue is that they all have the same gradients!
 
