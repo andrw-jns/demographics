@@ -51,7 +51,7 @@ SELECT
   , CASE
       WHEN d.Encrypted_HESid IS NULL 
         THEN NULL
-		 WHEN DATEDIFF(dd, ip.admidate, d.DOD) between 0 and 365 
+		 WHEN DATEDIFF(dd, ip.admidate, d.DOD) between 0 and 730 
         THEN CAST(
 							FLOOR(
 								DATEDIFF(dd, ip.admidate, d.DOD)/30.42 -- average over 4 years
