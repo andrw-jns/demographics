@@ -41,23 +41,24 @@ SELECT
   , d.DerivedAge as [age_at_death]
 	, CASE
 			WHEN admimeth LIKE '2%' 
-				THEN 'em'
+				THEN 'emer'
 			WHEN admimeth LIKE '1%'
-				THEN 'el'
+				THEN 'elec'
 		END [admi_type]
 	
   -- PROXIMITY TO DEATH
-  
+  -- Note that there is no substantial rise at 12 months. Can be seen if set between 0 and 730
+	-- Twelve months reduces number of rows.
   , CASE
       WHEN d.Encrypted_HESid IS NULL 
         THEN NULL
-		 WHEN DATEDIFF(dd, ip.admidate, d.DOD) between 0 and 730 
+		 WHEN DATEDIFF(dd, ip.admidate, d.DOD) between 0 and 365 
         THEN CAST(
 							FLOOR(
 								DATEDIFF(dd, ip.admidate, d.DOD)/30.42 -- average over 4 years
 										) AS INT
 									)
-      WHEN DATEDIFF(dd, ip.admidate, d.DOD) > 730
+      WHEN DATEDIFF(dd, ip.admidate, d.DOD) > 365
         THEN NULL
       WHEN DATEDIFF(dd, ip.admidate, d.DOD) < 0
         THEN 999 -- Error code will be 999
@@ -65,11 +66,12 @@ SELECT
       END [proximity_death]
 	  
 	-- LUNNEY GROUP --
-	-- Note: understand these lines that randomly assign 'frailty'. From where does this come?
+	-- Note: Randomly assignment of 'frailty' comes from JS interpretation of a study. See JW email.
+
 	  ,CASE 
-		 --WHEN arrivalage between 65 and 74 and RAND(CAST(NEWID() AS varbinary)) > 0.9 then 'Frailty' -- Randomly assigns 10% of arrivals in age range to Frailty deaths
-		 --WHEN DerivedAge between 75 and 84 and RAND(CAST(NEWID() AS varbinary)) > 0.7 then 'Frailty'    -- Randomly assigns 30% of arrivals in age range to Frailty deaths
-		 --WHEN DerivedAge between 85 and 120 and RAND(CAST(NEWID() AS varbinary)) > 0.2 then 'Frailty'   -- Randomly assigns 80% of arrivals in age range to Frailty deaths
+		WHEN DerivedAge between 65 and 74 and RAND(CAST(NEWID() AS varbinary)) > 0.9 then 'Frailty' -- Randomly assigns 10% of arrivals in age range to Frailty deaths
+		WHEN DerivedAge between 75 and 84 and RAND(CAST(NEWID() AS varbinary)) > 0.7 then 'Frailty'    -- Randomly assigns 30% of arrivals in age range to Frailty deaths
+		WHEN DerivedAge between 85 and 120 and RAND(CAST(NEWID() AS varbinary)) > 0.2 then 'Frailty'   -- Randomly assigns 80% of arrivals in age range to Frailty deaths
 		WHEN CAUSE_OF_DEATH like 'A0%' then 'SuddenDeath'
 		WHEN CAUSE_OF_DEATH like 'A39%' then 'SuddenDeath'
 		WHEN CAUSE_OF_DEATH like 'A4[01]%' then 'SuddenDeath'
@@ -152,7 +154,7 @@ FROM [HESData].dbo.tbInpatients1415 ip
 		
     FROM [ONS].[HESONS].[tbMortalityto1516] a
 		WHERE DOD between '2014-04-01' AND '2016-03-31'
-		AND SUBSEQUENT_ACTIVITY_FLG IS NULL -- Ignore deaths with subseq activity.
+		AND SUBSEQUENT_ACTIVITY_FLG IS NULL -- Ignore deaths with subseq activity [?]
     ) d
   ON ip.Encrypted_HESID = d.Encrypted_HESID
 
