@@ -90,6 +90,7 @@ population_projections <- read_rds(here("data", "AJ_2018-01-05_pop_proj.RDS")) %
 
 ip_base <- left_join(ip_data1, population_estimates,
                      by = c("year", "gender", "age_group")) %>% 
+  rename(age_band = age_band.x) %>% 
   mutate_at(vars(fyear, age_group, age_band, gender, lunney_group),
             funs(factor))
 # How many NAs (ie. have no gender / age group)? See test modelling.
@@ -183,8 +184,13 @@ grph_pop_proj <- ggplot(population_projections %>%
         axis.title.y = element_blank(),
         axis.text.y = element_blank()
         )+
-  ylim(0, 10e6) #+
-  # ggrepel::geom_text_repel(aes(label = gender),
+  ylim(0, 10e6) +
+  ggrepel::geom_text_repel( data = population_projections %>%
+                                     mutate(year = as.factor(year)) %>%
+                                     filter(year == 2039) %>%
+                                     group_by(age_band, year, gender) %>%
+                                     summarise(population = sum(population)),
+                              aes(label = gender, group = gender) #,
   # geom_text(aes(label = gender),
   #                          size = 2,
   #                          data = population_projections %>%
@@ -192,6 +198,7 @@ grph_pop_proj <- ggplot(population_projections %>%
   #                            filter(year == 2017) %>%
   #                            group_by(age_band, year, gender) %>%
   #                            summarise(population = sum(population)))
+  )
 
 grph_pop_est + grph_pop_proj
 
@@ -224,6 +231,8 @@ ggplot(admis %>% drop_na(),
 
 # Lunney Group -------------------------------------------------
 
+"When updated, frailty should be the biggest group - cross reference with lunney paper"
+
 ggplot(rate_lunney %>% drop_na, # %>% filter(fyear == "201415"),
        aes(fyear, adm_rate_1k, colour = age_band, group = age_band))+
   geom_line()+
@@ -242,17 +251,20 @@ ggplot(rate_lunney %>% drop_na,
 
 
 # Proximity to death  -------------------------------------------
-
+"Tweaks needed here"
 # Counts:
-ggplot(rate_prox_basic %>% filter(proximity_death <24), aes(proximity_death, admissions, colour = age_band))+
+ggplot(rate_prox_basic %>% filter(proximity_death <24) %>% ungroup,
+       aes(proximity_death, admissions, colour = age_band))+
   geom_line()
 
 # How to interpret admission rate by proximity to death?
 # 800 admissions per 1k (over 85) population are due last month of life?
-ggplot(rate_prox_basic  %>% filter(proximity_death <24), aes(proximity_death, adm_rate_1k, colour = age_band))+
+ggplot(rate_prox_basic  %>% filter(proximity_death <24),
+       aes(proximity_death, adm_rate_1k, colour = age_band))+
   geom_line()
 
-ggplot(rate_prox_lunney %>% filter(proximity_death <24), aes(proximity_death, adm_rate_1k))+
+ggplot(rate_prox_lunney %>% filter(proximity_death <24),
+       aes(proximity_death, adm_rate_1k))+
   geom_line(aes(group = interaction(lunney_group), colour = lunney_group))+
   facet_wrap(~age_band, scales = "free")
 
