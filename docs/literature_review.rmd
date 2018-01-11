@@ -5,6 +5,8 @@ output: html_document
 _Health care expenditures and longevity: is there a Eubie Blake effect?_
 
 _Werblow, Felder and Zweifel (2007)_
+
+_How do they do it in the US? Where are all the papers there?_
 # Summary of Previous Relevant Work (From SW's Proposal to HF)
 
 Papers published by the Centre for Health Services Economics and Organisation (CHSEO) in 2014 and 2015 explore historic trends in hospital inpatient activity and attempt to disaggregate the drivers of change into “…factors associated with the patient’s age (age effect), factors associated with the patient’s year of birth (cohort effect) and factors associated with the year of the patient’s admission __ eg. current policies, advances in technology, changes in capacity over time __(period effect).”  CHSEO developed multivariate regression models predicting admissions by year (or service) and single year of age.  They note difficulties arising from the co-linearity of the age, period and cohort predictor variables and explore a range of methods to address this issue. CHSEO demonstrate that over recent years the cohort effect has largely offset demand pressures arising from the age effect, but suggest that this offsetting may diminish after 2021 as “those born shortly after WWII start to reach late old age”.
