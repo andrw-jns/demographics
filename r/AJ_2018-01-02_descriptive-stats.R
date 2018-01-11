@@ -7,17 +7,21 @@
 # proximity_to_death and admissions: Only 14/15
 # population: all years.
 
-"Notes: If we are to use period effect in a model (according to Steven's outline)
-we will need to make assumptions about future period effects.
-BUT we may not be using period effect to predict, since we are only dealing with demand (population) factors?"
+"Notes: 
 
-"By REGION? Will we observe the London effect?"
+By REGION? Will we observe the London effect still?
+
+If we are to use period effect in a model (according to Steven's outline)
+we will need to make assumptions about future period effects. BUT we may
+not be using period effect to predict, since we are only dealing with 
+demand (population) factors?"
+
 
 library(here)
 library(stringr)
 library(tidyverse)
 library(extrafont) # for theme_strategy.
-library(hrbrthemes)
+# library(hrbrthemes)
 
 # devtools::install_github("thomasp85/patchwork")
 library(patchwork)
@@ -25,30 +29,57 @@ library(patchwork)
 # Turn off scientific notation:
 options(scipen = 999)
 
+# functions
+add_age_band <- function(df, df.age_var){
+  
+  var_enq <- enquo(df.age_var)
+  
+  df %>% mutate(age_band = case_when(
+    str_detect(!!var_enq, "^0|^1")      ~ "00to19",
+    str_detect(!!var_enq, "^2|^3|^40")  ~ "20to44",
+    str_detect(!!var_enq, "^45|^5|^60") ~ "45to64",
+    str_detect(!!var_enq, "^65|^7|^80") ~ "65to84",
+    str_detect(!!var_enq, "^85|^90")    ~ "85plus"
+  ))
+ }
+
+# test <- read_rds(here("data", "ip_data.RDS")) %>% 
+#   mutate(year = as.numeric(str_sub(fyear, 1, 4))) %>% 
+#   select(fyear, year, everything()) %>% 
+#   add_age_band(. , test$age_group)
+# 
+#   add_age_band(test, test$age_group)
 
 # Load --------------------------------------------------------------------
+
+# Age groupings could/should be based on literature, but provisionally:
+# 0-19 # 20-44 # 45-64 # 65-84 # 85+
+
 
 ip_data1 <- read_rds(here("data", "ip_data.RDS")) %>% 
   mutate(year = as.numeric(str_sub(fyear, 1, 4))) %>% 
   select(fyear, year, everything()) %>% 
-  mutate(age_band = case_when(
-    str_detect(.$age_group, "^0|^1")      ~ "00to19",
-    str_detect(.$age_group, "^2|^3|^40")  ~ "20to44",
-    str_detect(.$age_group, "^45|^5|^60") ~ "45to64",
-    str_detect(.$age_group, "^65|^7|^80") ~ "65to84",
-    str_detect(.$age_group, "^85|^90")    ~ "85plus"
-  ))
+  add_age_band(., .$age_group)
+  # mutate(age_band = case_when(
+  #   str_detect(.$age_group, "^0|^1")      ~ "00to19",
+  #   str_detect(.$age_group, "^2|^3|^40")  ~ "20to44",
+  #   str_detect(.$age_group, "^45|^5|^60") ~ "45to64",
+  #   str_detect(.$age_group, "^65|^7|^80") ~ "65to84",
+  #   str_detect(.$age_group, "^85|^90")    ~ "85plus"
+  # ))
 
-population_estimates <- read_rds(here("data", "AJ_2018-01-05_pop_est.RDS"))
+population_estimates <- read_rds(here("data", "AJ_2018-01-05_pop_est.RDS")) %>% 
+  add_age_band(., .$age_group)
  
 population_projections <- read_rds(here("data", "AJ_2018-01-05_pop_proj.RDS")) %>% 
-  mutate(age_band = case_when(
-    str_detect(.$age_group, "^0|^1")      ~ "00to19",
-    str_detect(.$age_group, "^2|^3|^40")  ~ "20to44",
-    str_detect(.$age_group, "^45|^5|^60") ~ "45to64",
-    str_detect(.$age_group, "^65|^7|^80") ~ "65to84",
-    str_detect(.$age_group, "^85|^90")    ~ "85plus"
-  )) 
+  add_age_band(., .$age_group) 
+  # mutate(age_band = case_when(
+  #   str_detect(.$age_group, "^0|^1")      ~ "00to19",
+  #   str_detect(.$age_group, "^2|^3|^40")  ~ "20to44",
+  #   str_detect(.$age_group, "^45|^5|^60") ~ "45to64",
+  #   str_detect(.$age_group, "^65|^7|^80") ~ "65to84",
+  #   str_detect(.$age_group, "^85|^90")    ~ "85plus"
+  # )) 
 
 
 #  ***----------------------------------------------------------------
@@ -57,14 +88,11 @@ population_projections <- read_rds(here("data", "AJ_2018-01-05_pop_proj.RDS")) %
 
 # *** -------------------------------------------------------------------
 
-
-# group by age, group by gender
-# Age groupings should be based on literature, but provisionally:
-# 0-19 # 20-44 # 45-64 # 65-84 # 85+
-
-ip_base <- left_join(ip_data1, population_estimates, by = c("year", "gender", "age_group")) %>% 
-  mutate_at(vars(fyear, age_group, age_band, gender, lunney_group), funs(factor))
-# How many NAs (ie. have no gender / age group)?
+ip_base <- left_join(ip_data1, population_estimates,
+                     by = c("year", "gender", "age_group")) %>% 
+  mutate_at(vars(fyear, age_group, age_band, gender, lunney_group),
+            funs(factor))
+# How many NAs (ie. have no gender / age group)? See test modelling.
 
 # Admissions ---------------------------------------------------------
 
@@ -126,24 +154,23 @@ rate_prox_lunney <- ip_base %>%
 
 # Pop by year ------------------------------------------------------
 
-p_pop_est <- ggplot(population_estimates %>% 
+grph_pop_est <- ggplot(population_estimates %>% 
          mutate(year = as.factor(year)) %>% 
          group_by(age_band, year, gender) %>% 
          summarise(population = sum(population)),
-       aes(year, population, colour = age_band))+
+         aes(year, population, colour = age_band))+
   geom_line(aes(group = interaction(age_band, gender)))+ # two groups.
   theme(panel.grid.minor = element_blank(),
         panel.grid.major.x = element_blank(),
         axis.ticks = element_blank(),
-        legend.position = "none"
-  )+
+        legend.position = "none")+
   ylim(0, 10e6)
 
 
 # Pop projections -------------------------------------------------------------
 
 
-p_pop_proj <- ggplot(population_projections %>% 
+grph_pop_proj <- ggplot(population_projections %>% 
          mutate(year = as.factor(year)) %>% 
          group_by(age_band, year, gender) %>% 
          summarise(population = sum(population)),
@@ -156,7 +183,7 @@ p_pop_proj <- ggplot(population_projections %>%
         axis.title.y = element_blank(),
         axis.text.y = element_blank()
         )+
-  ylim(0, 10e6) +
+  ylim(0, 10e6) #+
   # ggrepel::geom_text_repel(aes(label = gender),
   # geom_text(aes(label = gender),
   #                          size = 2,
@@ -166,7 +193,7 @@ p_pop_proj <- ggplot(population_projections %>%
   #                            group_by(age_band, year, gender) %>%
   #                            summarise(population = sum(population)))
 
-p_pop_est + p_pop_proj
+grph_pop_est + grph_pop_proj
 
 
 # Adm by age band, and age and gender -----------------------------------
@@ -174,7 +201,7 @@ p_pop_est + p_pop_proj
 # Basic Age band by year:
 ggplot(admis %>%
          group_by(fyear, age_band) %>%
-         summarise(adm_rate_1k = sum(admissions)/sum(population)*1000) %>% 
+         summarise(adm_rate_1k = sum(admissions, na.rm = T)/sum(population, na.rm = T)*1000) %>% 
          drop_na(),
        aes(fyear, adm_rate_1k, colour = age_band))+
   geom_point()+
@@ -183,21 +210,23 @@ ggplot(admis %>%
 
 # This plot needs attention: labels (!):
 ggplot(admis %>% drop_na(),
-       aes(fyear, adm_rate_1k, colour = age_band))+
+       aes(fyear, adm_rate_1k, colour = age_band, group = interaction(age_band, gender)))+
   ggrepel::geom_text_repel(aes(label = gender),
                            nudge_x = 2,
                            size = 2,
                            #colour = "black",
-                           data = admis %>% drop_na() %>% filter(fyear == "201415" ))+
+                           data = admis %>%
+                             drop_na() %>% filter(fyear == "201415" ))+
   # geom_point()+
   geom_line(aes(group = interaction(age_band, gender)))
 
 
+
 # Lunney Group -------------------------------------------------
 
-ggplot(rate_lunney %>% drop_na %>% filter(fyear = "201415"),
-       aes(fyear, adm_rate_1k, colour = age_band))+
-  geom_point()+
+ggplot(rate_lunney %>% drop_na, # %>% filter(fyear == "201415"),
+       aes(fyear, adm_rate_1k, colour = age_band, group = age_band))+
+  geom_line()+
   facet_wrap(~lunney_group)
 # highlights the lunney group
 
@@ -206,8 +235,8 @@ ggplot(rate_lunney %>% drop_na %>% filter(fyear = "201415"),
 "Will have to decide when all years data"
 
 ggplot(rate_lunney %>% drop_na,
-       aes(fyear, adm_rate_1k, colour = lunney_group))+
-  geom_point()+
+       aes(fyear, adm_rate_1k, colour = lunney_group, group = lunney_group ))+
+  geom_line()+
   facet_wrap(~age_band)
 # highlights the affect of age 
 
@@ -215,15 +244,15 @@ ggplot(rate_lunney %>% drop_na,
 # Proximity to death  -------------------------------------------
 
 # Counts:
-ggplot(rate_prox_basic, aes(proximity_death, admissions, colour = age_band))+
+ggplot(rate_prox_basic %>% filter(proximity_death <24), aes(proximity_death, admissions, colour = age_band))+
   geom_line()
 
 # How to interpret admission rate by proximity to death?
 # 800 admissions per 1k (over 85) population are due last month of life?
-ggplot(rate_prox_basic, aes(proximity_death, adm_rate_1k, colour = age_band))+
+ggplot(rate_prox_basic  %>% filter(proximity_death <24), aes(proximity_death, adm_rate_1k, colour = age_band))+
   geom_line()
 
-ggplot(rate_prox_lunney, aes(proximity_death, adm_rate_1k))+
-  geom_line(aes(group = lunney_group, colour = lunney_group))+
+ggplot(rate_prox_lunney %>% filter(proximity_death <24), aes(proximity_death, adm_rate_1k))+
+  geom_line(aes(group = interaction(lunney_group), colour = lunney_group))+
   facet_wrap(~age_band, scales = "free")
 
