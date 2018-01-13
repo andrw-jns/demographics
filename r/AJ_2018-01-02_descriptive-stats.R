@@ -263,8 +263,16 @@ ggplot(rate_prox_basic  %>% filter(proximity_death <24),
        aes(proximity_death, adm_rate_1k, colour = age_band))+
   geom_line()
 
-ggplot(rate_prox_lunney %>% filter(proximity_death <24),
+ggplot(rate_prox_lunney %>% ungroup %>% filter(proximity_death <24),
        aes(proximity_death, adm_rate_1k))+
-  geom_line(aes(group = interaction(lunney_group), colour = lunney_group))+
+  geom_line(aes(group = interaction(lunney_group, fyear), colour = lunney_group))+
   facet_wrap(~age_band, scales = "free")
 
+investigation <- rate_prox_lunney %>% ungroup %>% filter(proximity_death <24)
+# it's by year that needs to be broken down.
+
+
+ggplot(rate_prox_lunney %>% ungroup %>% filter(proximity_death <24),
+       aes(proximity_death, admissions))+
+  geom_line(aes(group = interaction(lunney_group, fyear), colour = lunney_group))+
+  facet_wrap(~age_band, scales = "free")

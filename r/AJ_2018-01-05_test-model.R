@@ -40,16 +40,16 @@ tmp <- ip_base %>%
             population = sum(population),
             adm_rate_1k = sum(admissions)/sum(population)*1000)
 
-
+tmp <- tmp %>% drop_na()
 # na_observations <- tmp %>% filter_all(any_vars(is.na(.)))
 
 # But should still consider them as part of total admissions. Could 
 # distribute them to ages according to gender distribution, or are one group
 # more likely to have no age recorded. Could explore if necessary.
-
-tmp %>% filter(year == 2014, gender == "M") %>% 
-  drop_na() %>% 
-  summarise(sum(admissions))
+# 
+# tmp %>% filter(year == 2014, gender == "M") %>% 
+#   drop_na() %>% 
+#   summarise(sum(admissions))
 
 # There are 100 rows of complete cases, 80 including NAs.
 # Mostly cases of genders missing an age. [Small Fraction of the Data
@@ -91,6 +91,9 @@ changes in the population size. Really, we want the formula independent
 of (year by year) year because it's impossible to foresee how this may change.
 Which is what APC method is getting at."
 
+
+model_update_count <- MASS::glm.nb(admissions ~ age_band + gender + year + log(population),
+                             data = tmp %>% drop_na)
 
 mod_nb_count <- MASS::glm.nb(admissions ~ age_band + gender + year + offset(log(population)),
                              data = tmp %>% drop_na)
