@@ -7,7 +7,9 @@
 # proximity_to_death and admissions: Only 14/15
 # population: all years.
 
-"Notes: 
+"Notes:
+
+Remove HEALTHY BABIES from the analysis as in JW analysis
 
 By REGION? Will we observe the London effect still?
 

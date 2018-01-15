@@ -17,7 +17,8 @@ library(tidyverse)
 "Mixed models"
 "Generalised Estimating Equations"
 "apc package"
-
+"GENERALLY HAVE BEEN LINEAR TRENDS"
+"Probably better to ungroup age! Or at least disagregate by a level"
 # Questions ----------------------------------------------------------
 
 
@@ -40,7 +41,7 @@ tmp <- ip_base %>%
             population = sum(population),
             adm_rate_1k = sum(admissions)/sum(population)*1000)
 
-tmp <- tmp %>% drop_na()
+# tmp <- tmp %>% drop_na()
 # na_observations <- tmp %>% filter_all(any_vars(is.na(.)))
 
 # But should still consider them as part of total admissions. Could 
@@ -59,14 +60,22 @@ tmp <- tmp %>% drop_na()
 
 # Distributions -------------------------------------------------------
 
-ggplot(tmp %>%  drop_na, aes(adm_rate_1k))+
+"Which distribution?"
+
+ggplot(tmp %>%  drop_na # %>% filter(year == 2013)
+       , aes(adm_rate_1k))+
   geom_histogram(bins = 50)
 # Is more a nbinom, than the distribuion of counts
-
 
 ggplot(tmp %>%  drop_na, aes(admissions))+
   geom_histogram(bins = 20)
 # Is more a nbinom, than the distribuion of counts
+
+
+ggplot(tmp %>%  drop_na, aes(admissions))+
+  geom_histogram(bins = 50)
+# Is more a nbinom, than the distribuion of counts
+
 
 install.packages("fitdistrplus")
 library(fitdistrplus)
@@ -87,8 +96,8 @@ the interaction between AGE_BAND and gender. Then F 20to44 from 2009 would
 be grouped with  F 20to44 from 2014. This wouldn't be correct. 
 
 YEAR takes into period factors (ie. gov policy) as well as (implicitly) 
-changes in the population size. Really, we want the formula independent
-of (year by year) year because it's impossible to foresee how this may change.
+changes in the population size. Remember year as function of population )
+It's impossible to foresee how year may change.
 Which is what APC method is getting at."
 
 
@@ -110,13 +119,15 @@ mod_nb_rate_int <- MASS::glm.nb(adm_rate_1k ~ age_band*gender + year, # + offset
 # mod_nb_rate_int_catyear <- MASS::glm.nb(adm_rate_1k ~ age_band*gender + as.character(year), # + offset(log(population)),
 #                                 data = tmp %>% drop_na)
 
-mod_nb_rate_3int <- MASS::glm.nb(adm_rate_1k ~ age_band*gender*year, # + offset(log(population)),
+# mod_nb_rate_3int <- MASS::glm.nb(adm_rate_1k ~ age_band*gender*year, # + offset(log(population)),
                                  data = tmp %>% drop_na)
 
 
 # How a formula would be interpreted:
 # m_matrix <- modelr::model_matrix(tmp, adm_rate_1k ~ age_band*gender*year)
 
+model_matrix(tmp, admissions ~ age_band+gender+year+log(population)) # 8 variables
+model_matrix(tmp, admissions ~ age_band+gender+year+offset(log(population))) # 7 variables
 model_matrix(tmp, adm_rate_1k ~ age_band+gender+year) # 7 variables
 model_matrix(tmp, adm_rate_1k ~ age_band*gender+year) # 11 variables
 model_matrix(tmp, adm_rate_1k ~ age_band*gender*year) # 20 variables
@@ -142,7 +153,7 @@ tmp_nest <- tmp %>%
   nest() %>% 
   mutate(mod_nb = map(data, nb_rate_int_model))
 
-# The model relies obviously relies on the whole dataframe! There is no subsetting
+# The model obviously relies on the whole dataframe! There is no subsetting
 # like in the R4DS method.
 
 tmp_nest_2 <- tmp %>% ungroup %>% nest %>% 
