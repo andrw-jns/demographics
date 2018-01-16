@@ -164,6 +164,10 @@ WHERE
 1 = 1 
 AND epiorder = 1
 
+-- JW exclusion of Healthy babies 
+AND suscorehrg != 'PB03Z' -- Healthy baby
+AND tretspef != '424'	-- Healthy baby -- far less impact
+AND well_baby_ind != 'Y' -- Healthy baby -- far less impact
 
 ) cte
 
