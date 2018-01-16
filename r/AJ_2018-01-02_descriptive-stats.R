@@ -9,6 +9,8 @@
 
 "Notes:
 
+Longer time series?
+
 Remove HEALTHY BABIES from the analysis as in JW analysis
 
 By REGION? Will we observe the London effect still?
@@ -61,7 +63,8 @@ add_age_band <- function(df, df.age_var){
 ip_data1 <- read_rds(here("data", "ip_data.RDS")) %>% 
   mutate(year = as.numeric(str_sub(fyear, 1, 4))) %>% 
   select(fyear, year, everything()) %>% 
-  add_age_band(., .$age_group)
+  add_age_band(., .$age_group) %>% 
+  as.tibble()
   # mutate(age_band = case_when(
   #   str_detect(.$age_group, "^0|^1")      ~ "00to19",
   #   str_detect(.$age_group, "^2|^3|^40")  ~ "20to44",
@@ -71,10 +74,12 @@ ip_data1 <- read_rds(here("data", "ip_data.RDS")) %>%
   # ))
 
 population_estimates <- read_rds(here("data", "AJ_2018-01-05_pop_est.RDS")) %>% 
-  add_age_band(., .$age_group)
- 
+  add_age_band(., .$age_group) %>%
+  as.tibble()
+
 population_projections <- read_rds(here("data", "AJ_2018-01-05_pop_proj.RDS")) %>% 
-  add_age_band(., .$age_group) 
+  add_age_band(., .$age_group) %>%
+  as.tibble()
   # mutate(age_band = case_when(
   #   str_detect(.$age_group, "^0|^1")      ~ "00to19",
   #   str_detect(.$age_group, "^2|^3|^40")  ~ "20to44",
@@ -92,9 +97,9 @@ population_projections <- read_rds(here("data", "AJ_2018-01-05_pop_proj.RDS")) %
 
 ip_base <- left_join(ip_data1, population_estimates,
                      by = c("year", "gender", "age_group")) %>% 
-  rename(age_band = age_band.x) %>% 
-  mutate_at(vars(fyear, age_group, age_band, gender, lunney_group),
-            funs(factor))
+  rename(age_band = age_band.x) # %>% 
+  # mutate_at(vars(fyear, age_group, age_band, gender, lunney_group),
+  #           funs(factor))
 # How many NAs (ie. have no gender / age group)? See test modelling.
 
 # Admissions ---------------------------------------------------------

@@ -19,6 +19,7 @@ library(tidyverse)
 "apc package"
 "GENERALLY HAVE BEEN LINEAR TRENDS"
 "Probably better to ungroup age! Or at least disagregate by a level"
+"Longer time series?"
 # Questions ----------------------------------------------------------
 
 
@@ -64,11 +65,20 @@ tmp <- ip_base %>%
 
 ggplot(tmp %>%  drop_na # %>% filter(year == 2013)
        , aes(adm_rate_1k))+
-  geom_histogram(bins = 50)
+  # geom_dotplot(stat_bindot(bins = 500))
+  geom_histogram(bins = 1000)
 # Is more a nbinom, than the distribuion of counts
 
-ggplot(tmp %>%  drop_na, aes(admissions))+
-  geom_histogram(bins = 20)
+
+ggplot(tmp %>%  drop_na # %>% filter(year == 2013)
+       , aes(adm_rate_1k))+
+  # geom_dotplot(stat_bindot(bins = 500))
+  geom_histogram(bins = 1000)
+# Is more a nbinom, than the distr
+
+
+ggplot(tmp %>%  drop_na %>% filter(year == 2013), aes(admissions))+
+  geom_histogram(bins = 100)
 # Is more a nbinom, than the distribuion of counts
 
 
@@ -120,7 +130,7 @@ mod_nb_rate_int <- MASS::glm.nb(adm_rate_1k ~ age_band*gender + year, # + offset
 #                                 data = tmp %>% drop_na)
 
 # mod_nb_rate_3int <- MASS::glm.nb(adm_rate_1k ~ age_band*gender*year, # + offset(log(population)),
-                                 data = tmp %>% drop_na)
+#                                  data = tmp %>% drop_na)
 
 
 # How a formula would be interpreted:
