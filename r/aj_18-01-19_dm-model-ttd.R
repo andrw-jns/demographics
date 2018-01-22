@@ -8,6 +8,8 @@
 
 # What kind of distribution?
 
+# admissions per person per year
+
 options(na.action = na.warn)
 
 library(here)
