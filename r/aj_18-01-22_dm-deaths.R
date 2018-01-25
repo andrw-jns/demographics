@@ -5,11 +5,12 @@
 
 library(tidyverse)
 library(janitor)
+library(here)
 
-deaths_female <- read_csv("data/2014 SNPP Deaths females.csv") %>% 
+deaths_female <- read_csv(here("data", "2014 SNPP Deaths females.csv")) %>% 
   clean_names()
 
-deaths_male <- read_csv("data/2014 SNPP Deaths males.csv") %>% 
+deaths_male <- read_csv(here("data", "2014 SNPP Deaths males.csv")) %>% 
   clean_names()
 
 deaths_all <- bind_rows(deaths_female, deaths_male)

@@ -12,6 +12,8 @@
 
 - By REGION? Will we observe the London effect still?
 
+- Activity of Scottish / Welsh people?
+
 - Bringing through a few more variables we could use mice for NA imputation?
 
 - If we are to use period effect in a model (according to Steven's outline)
