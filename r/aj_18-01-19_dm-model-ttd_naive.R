@@ -27,8 +27,8 @@ ip_base %>% filter(is.na(proximity_death)) & proximity_death > 0)
 ttd_base <- ip_base %>% 
   mutate(ttd = case_when(
     is.na(ip_base$proximity_death) ~ 0,   # No death
-    ip_base$proximity_death %in% c(0:11) ~ 1, # Activity in last year of life
-    ip_base$proximity_death %in% c(12:23) ~2  # Activity in penultimate year of life
+    ip_base$proximity_death %in% 0:11 ~ 1, # Activity in last year of life
+    ip_base$proximity_death %in% 12:23 ~2  # Activity in penultimate year of life
   ))
 
 
