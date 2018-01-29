@@ -8,6 +8,8 @@ https://stats.stackexchange.com/questions/175349/in-a-poisson-model-what-is-the-
 
 https://strengejacke.wordpress.com/2017/08/27/marginal-effects-for-negative-binomial-mixed-effects-models-glmer-nb-and-glmmtmb-rstats/
 
+http://data.library.virginia.edu/getting-started-with-negative-binomial-regression-modeling/
+
 ### GAMs:
 
 https://m-clark.github.io/docs/GAM.html
